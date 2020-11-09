@@ -1,20 +1,11 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title class="ion-text-center">Hey<br>Football</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content>
+  
+  <ion-button routerLink="/login" class="ion-margin-top" expand="full">Prihlásiť sa</ion-button>
+  <ion-button routerLink="/register" class="ion-margin-top" expand="full">Registrovať sa</ion-button>
+  <ion-button routerLink="/join" class="ion-margin-top" expand="full">Pripojiť sa na zápas</ion-button>
 </ion-content>

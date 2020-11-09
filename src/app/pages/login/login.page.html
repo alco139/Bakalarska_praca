@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Hey<br>Football</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Meno</ion-label>
+    <ion-input type="text" [(ngModel)]="username" name="username"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label>Heslo</ion-label>
+    <ion-input type="text" [(ngModel)]="password" name="password"></ion-input>
+  </ion-item>
+
+
+  <ion-button expand="full">Prihlásiť sa</ion-button>
+  <p class="ion-text-center">Ak nemáš učet <a routerLink="/register">zaregistruj sa</a></p>
+  <p class="ion-text-center"><a routerLink="/join">Pripojiť sa na zápas </a></p>
+</ion-content>
+
