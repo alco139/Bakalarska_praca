@@ -1,3 +1,4 @@
+import { UserService } from './../../api/user.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPage implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
-  ngOnInit() {
-  }
-  username: string;
+  ngOnInit() {}
+  email: string;
   password: string;
+  confirm_password: string;
+  
+
+  signUp(){
+    if(this.password === this.confirm_password){
+      this.userService.signup(this.email,this.password).subscribe(resData =>{
+        console.log(resData);
+      })
+    }
+    else{
+      alert('Heslá sa nezhodujú');
+    }
+  }
 }
