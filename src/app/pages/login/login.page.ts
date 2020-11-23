@@ -12,7 +12,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  username : string;
+  email : string;
   password: string;
 
 
