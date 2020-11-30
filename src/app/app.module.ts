@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import firebase from 'firebase';
+
 let firebaseConfig = {
   apiKey: "AIzaSyCTX9obFkfJEWiaHKXBi8udgBIYWXJ3DMc",
   authDomain: "bakalarskapraca-c7c83.firebaseapp.com",
@@ -21,6 +22,7 @@ let firebaseConfig = {
   appId: "1:408115180376:web:31c7d1b68d95ab3122eb2d",
   measurementId: "G-B6WMBLET4Q"
 };
+
 firebase.initializeApp(firebaseConfig);
 
 @NgModule({

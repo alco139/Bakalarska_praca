@@ -1,4 +1,4 @@
-<ion-app>
+<ion-app id="main">
   <div class="ion-page" id="main-content">
     <ion-header>
       <ion-toolbar>
@@ -18,6 +18,11 @@
     </ion-header>
     <ion-content>
       <ion-list>
+        <ion-item>
+          <ion-icon id="dark-mode-icon" name="moon-outline"></ion-icon>
+          <ion-label id="label" class="ion-margin" >Tmavá téma</ion-label>
+          <ion-toggle (ionChange)="onToggleColorTheme($event)"></ion-toggle>
+        </ion-item>
         <ion-item>
           <ion-icon name="person-circle-outline"></ion-icon>
           <ion-label class="ion-margin" >Profil</ion-label>

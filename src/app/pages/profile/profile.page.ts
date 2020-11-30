@@ -26,5 +26,16 @@ export class ProfilePage implements OnInit {
     this.menu.enable(true, 'custom');
     this.menu.open('custom');
   }
-
+  onToggleColorTheme(event){
+    if(event.detail.checked){
+      document.getElementById('dark-mode-icon').setAttribute('name', 'moon');
+      document.getElementById('ion-tg-0-lbl').innerText = "Svetlá téma";
+      document.getElementById('main').setAttribute('color-theme','dark');
+    }
+    else{
+      document.getElementById('dark-mode-icon').setAttribute('name', 'moon-outline');
+      document.getElementById('ion-tg-0-lbl').innerText = "Tmavá téma";
+      document.getElementById('main').setAttribute('color-theme','light');
+    }
+}
 }

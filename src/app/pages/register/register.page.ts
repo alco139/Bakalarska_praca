@@ -1,6 +1,7 @@
 import { UserService } from './../../api/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import firebase from 'firebase';
 
 @Component({
   selector: 'app-register',
@@ -8,11 +9,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
   
-  constructor(private userService: UserService,private router:Router) { }
+  constructor(private userService: UserService, private router:Router) { }
 
   ngOnInit() {}
   
@@ -20,17 +22,23 @@ export class RegisterPage implements OnInit {
 
   signUp(){
     if(this.password === this.confirmPassword){
-      this.userService.signup(this.email,this.password).subscribe(resData => {
-        if(resData){
-          this.router.navigate(['/profile']);
-        }
-        else{
-          alert('Failed to register');
-        }
+      firebase.auth().createUserWithEmailAndPassword(this.email,this.password).then((data) => {
+        let newUser: firebase.User = data.user;
+        this.router.navigate(['/profile']);
+        newUser.updateProfile({
+          displayName: this.username,
+          photoURL: ""
+        }).then((res) => {
+          
+          console.log(res);
+        })
+        
+      }).catch((err) => {
+        alert(err);
       })
+      }
+      else {alert("Hesla sa nezhodujú")}
     }
-    else{
-      alert('Heslá sa nezhodujú');
-    }
-  }
+
 }
+

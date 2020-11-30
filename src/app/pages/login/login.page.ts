@@ -1,4 +1,6 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import firebase from 'firebase';
 
 @Component({
   selector: 'app-login',
@@ -7,13 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  email : string;
+  password: string;
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  email : string;
-  password: string;
+  signIn(){
+    firebase.auth().signInWithEmailAndPassword(this.email,this.password).then((data) => {
+      this.router.navigate(['/profile']);
+      console.log(data.user);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
 
 
 }
