@@ -8,19 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
+  email: string;
+  password: string;
+  confirmPassword: string;
+  
   constructor(private userService: UserService,private router:Router) { }
 
   ngOnInit() {}
-  email: string;
-  password: string;
-  confirm_password: string;
   
   
 
   signUp(){
-    if(this.password === this.confirm_password){
-      this.userService.signup(this.email,this.password).subscribe(resData =>{
+    if(this.password === this.confirmPassword){
+      this.userService.signup(this.email,this.password).subscribe(resData => {
         if(resData){
           this.router.navigate(['/profile']);
         }
