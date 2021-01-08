@@ -1,4 +1,4 @@
-<ion-app id="main">
+<ion-content id="main">
   <div class="ion-page" id="main-content">
     <ion-header>
       <ion-toolbar>
@@ -10,6 +10,26 @@
     </ion-header>
   </div>
 
+
+    <ion-grid class="ion-margin-top" id="profile-text">
+      <ion-row>
+        <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Meno: {{username}}</ion-card-title>
+              <ion-card-subtitle
+                >helou night / Night</ion-card-subtitle
+              >
+            </ion-card-header>
+            <ion-card-content>
+              <p>toto je description</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+ 
+
   <ion-menu side="start" content-id="main-content">
     <ion-header>
       <ion-toolbar translucent>
@@ -20,7 +40,6 @@
       <ion-list>
         <ion-item>
           <ion-icon id="dark-mode-icon" name="moon-outline"></ion-icon>
-          <ion-label id="label" class="ion-margin" >Tmavá téma</ion-label>
           <ion-toggle (ionChange)="onToggleColorTheme($event)"></ion-toggle>
         </ion-item>
         <ion-item>
@@ -41,9 +60,14 @@
         </ion-item>
         <ion-item>
           <ion-icon name="log-in-outline"></ion-icon>
-          <ion-label class="ion-margin" >Odhlásiť</ion-label>
+          <ion-label class="ion-margin" (click)="logOut()" >Odhlásiť</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
-</ion-app>
+  
+
+</ion-content>
+
+
+

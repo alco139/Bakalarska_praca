@@ -24,7 +24,7 @@ export class RegisterPage implements OnInit {
     if(this.password === this.confirmPassword){
       firebase.auth().createUserWithEmailAndPassword(this.email,this.password).then((data) => {
         let newUser: firebase.User = data.user;
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/login']);
         newUser.updateProfile({
           displayName: this.username,
           photoURL: ""
