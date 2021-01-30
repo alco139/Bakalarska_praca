@@ -22,10 +22,15 @@ const routes: Routes = [
   {
     path: 'join',
     loadChildren: () => import('./pages/join/join.module').then( m => m.JoinPageModule)
-  },  {
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+  },  {
+    path: 'create-match',
+    loadChildren: () => import('./pages/create-match/create-match.module').then( m => m.CreateMatchPageModule)
   },
+
 
 ];
 

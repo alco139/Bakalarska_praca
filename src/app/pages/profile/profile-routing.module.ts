@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ProfilePage
+  },  {
+    path: 'update-email',
+    loadChildren: () => import('./update-email/update-email.module').then( m => m.UpdateEmailPageModule)
   }
+
 ];
 
 @NgModule({

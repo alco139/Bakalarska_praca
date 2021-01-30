@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { UserService } from './../../api/user.service';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import * as firebase from 'firebase';
@@ -11,14 +12,15 @@ import * as firebase from 'firebase';
 export class ProfilePage implements OnInit {
 
   username: string = firebase.default.auth().currentUser.displayName;
+  email: string = firebase.default.auth().currentUser.email;
   
-  constructor(private menu: MenuController,private router:Router) {
-     
-   }
+  constructor(private menu: MenuController, private router:Router, private userService: UserService) {
+  }
 
   ngOnInit() {
     
   }
+  
 
   openFirst() {
     this.menu.enable(true, 'first');
@@ -36,13 +38,13 @@ export class ProfilePage implements OnInit {
   onToggleColorTheme(event){
     if(event.detail.checked){
       document.getElementById('dark-mode-icon').setAttribute('name', 'moon');
-     /*  document.getElementById('ion-tg-0-lbl').innerText = "Svetlá téma"; */
       document.getElementById('main').setAttribute('color-theme','dark');
+      document.getElementById('main-content').setAttribute('color-theme','dark');
     }
     else{
       document.getElementById('dark-mode-icon').setAttribute('name', 'moon-outline');
-/*       document.getElementById('ion-tg-0-lbl').innerText = "Tmavá téma";
- */      document.getElementById('main').setAttribute('color-theme','light');
+      document.getElementById('main').setAttribute('color-theme','light');
+      document.getElementById('main-content').setAttribute('color-theme','light');
     }
   }
 
@@ -53,5 +55,8 @@ export class ProfilePage implements OnInit {
     } 
     );
   }
-
+  
+  getPlayer(){
+    this.userService.getPlayer();
+  }
 }
