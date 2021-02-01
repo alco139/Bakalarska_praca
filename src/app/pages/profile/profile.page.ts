@@ -22,19 +22,6 @@ export class ProfilePage implements OnInit {
   }
   
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
-  }
-
-  openEnd() {
-    this.menu.open('end');
-  }
-
-  openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
-  }
   onToggleColorTheme(event){
     if(event.detail.checked){
       document.getElementById('dark-mode-icon').setAttribute('name', 'moon');
@@ -49,14 +36,10 @@ export class ProfilePage implements OnInit {
   }
 
   logOut(){
-    console.log(this.username);
-    firebase.default.auth().signOut().then(() => {
-      this.router.navigate(['/login'])
-    } 
-    );
+    this.userService.logOut();
   }
   
   getPlayer(){
-    this.userService.getPlayer();
+    this.userService.getPlayerId();
   }
 }

@@ -18,6 +18,13 @@ export class UserService {
 
   constructor(private router: Router) {}
   
+  logOut(){
+    firebase.auth().signOut().then(() => {
+      this.router.navigate(['/login'])
+    } 
+    );
+  }
+
   signUp(email: string, password: string, confirmPassword: string, username: string){
     if(password === confirmPassword){
       firebase.auth().createUserWithEmailAndPassword(email,password).then((data) => {
@@ -56,13 +63,14 @@ export class UserService {
     })
   }
 
-  getPlayer(){
-    console.log(this.id);
+  getPlayerId(){
     this.playerCollection.doc(this.id).get().then((doc) => {
       if(doc.exists){
-        console.log(doc.data())
+        return doc.data().id;
       }
     })
   }
-
+  getId(){
+    return this.id;
+  }
 }
