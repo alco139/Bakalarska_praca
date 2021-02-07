@@ -1,0 +1,21 @@
+<ion-header id="main-content">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Hey<br>Football</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let p of matches; let i = index">
+    <ion-card-content text-wrap (onclick) = "test()">
+      <ion-label>Miesto: {{p.place}}</ion-label>
+      <br>
+      <ion-label>Dátum: {{p.date}}</ion-label>
+      <br>
+      <ion-label>Skóre: {{p.scoreTeamRed}}:{{p.scoreTeamBlue}}</ion-label>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

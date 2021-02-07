@@ -66,6 +66,7 @@ export class UserService {
   getPlayerId(){
     this.playerCollection.doc(this.id).get().then((doc) => {
       if(doc.exists){
+        console.log(doc.data().id)
         return doc.data().id;
       }
     })

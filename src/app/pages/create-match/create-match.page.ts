@@ -12,7 +12,7 @@ import * as firebase from 'firebase';
 })
 export class CreateMatchPage implements OnInit {
 
-  date: string;
+  date: Date;
   place: string;
 
   constructor(private menu: MenuController,private router:Router , private userService: UserService, private matchService: MatchService) { }
@@ -43,5 +43,6 @@ export class CreateMatchPage implements OnInit {
 
   sendMatch(){
     this.matchService.addMatch(this.date,this.place)
+    this.router.navigate(["/profile"]);
   }
 }

@@ -25,12 +25,12 @@ export class AppComponent {
     },
     {
       title: 'Pripojiť sa na zápas',
-      url: '/folder/Archived',
+      url: '/join-match',
       icon: 'link-outline'
     },
     {
       title: 'Moje zápasy',
-      url: '/folder/Trash',
+      url: '/my-matches',
       icon: 'reader-outline'
     },
     

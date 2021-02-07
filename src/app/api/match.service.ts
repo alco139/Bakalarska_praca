@@ -11,7 +11,6 @@ import firebase from 'firebase';
 })
 export class MatchService {
 
-  idMatch = "auasdfmlasdlk";
   scoreTeamRed: number;
   scoreTeamBlue: number;
   date: Date;
@@ -20,7 +19,8 @@ export class MatchService {
   playersRed: string ;
   playersBlue:string;
   joinKey: string;
-  
+  matches: any[] = [];
+
   matchCollection = firebase.firestore().collection("matches");
 
   constructor(private router: Router, private userService: UserService) { }
@@ -29,17 +29,27 @@ export class MatchService {
   
     console.log(this.userService.getPlayerId())
     this.matchCollection.add({
-      idMatch: "1",
       scoreTeamRed: 0,
       scoreTeamBlue: 0,
       date: date,
       place: place,
       matchCreatorId: this.userService.getId(),
-      playersRed: ["1abc","2efg","3hij"],
-      playersBlue: ["1,2,3"],
-      joinKey : "1"
-
+      playersRed: [],
+      playersBlue: [],
+      joinKey : "1" ,
+      isActive : false,
+      goals : []
 
     })
   }
+    getMatches(){
+    this.matchCollection.where("matchCreatorId", "==", this.userService.id).get().then((docs) => {
+      docs.forEach((doc) => {
+        this.matches.push(doc.data());
+      })
+    })
+  }
+    clearMatches(){
+      this.matches = [];
+    }
 }

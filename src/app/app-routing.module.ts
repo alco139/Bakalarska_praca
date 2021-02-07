@@ -30,6 +30,10 @@ const routes: Routes = [
     path: 'create-match',
     loadChildren: () => import('./pages/create-match/create-match.module').then( m => m.CreateMatchPageModule)
   },
+  {
+    path: 'my-matches',
+    loadChildren: () => import('./pages/my-matches/my-matches.module').then( m => m.MyMatchesPageModule)
+  },
 
 
 ];
