@@ -1,6 +1,8 @@
 import { UserService } from './../../api/user.service';
 import { MatchService } from './../../api/match.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-my-matches',
@@ -9,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyMatchesPage implements OnInit {
   public matches = [];
-  constructor(private matchService: MatchService, private userService: UserService) { }
+  constructor(private router:Router ,private matchService: MatchService, private userService: UserService) { }
   
   ngOnInit() {
     
@@ -25,7 +27,8 @@ export class MyMatchesPage implements OnInit {
     this.matches = [];
     this.matchService.clearMatches()
   }
-  test(event){
-    console.log(event);
+  goToMatch(uuid){
+    this.matchService.matchToOpen = uuid;
+    this.router.navigate(['/match'])
   }
 }

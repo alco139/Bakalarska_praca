@@ -1,12 +1,15 @@
-<ion-app>
+<ion-app >
   <ion-split-pane id="main" contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
+          <br>
+          <br>
+          <br>
           <ion-menu-toggle>
             <ion-item>
-              <ion-icon id="dark-mode-icon" name="moon-outline"></ion-icon>
-              <ion-label class="ion-margin">Tmavá téma</ion-label>
+              <ion-icon id="dark-mode-icon" name="sunny-outline"></ion-icon>
+              <ion-label class="ion-margin">Svetlá Téma</ion-label>
               <ion-toggle (ionChange)="onToggleColorTheme($event)"></ion-toggle>
             </ion-item>
           </ion-menu-toggle>
@@ -23,8 +26,6 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-
-      
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

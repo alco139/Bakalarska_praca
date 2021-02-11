@@ -61,14 +61,17 @@ export class AppComponent {
 
   onToggleColorTheme(event){
     if(event.detail.checked){
-      document.getElementById('dark-mode-icon').setAttribute('name', 'moon');
+      document.getElementById('dark-mode-icon').setAttribute('name', 'moon-outline');
+      document.getElementById('dark-mode-icon').setAttribute('name', 'sunny-outline');
       document.getElementById('main').setAttribute('color-theme','dark');
       document.getElementById('main-content').setAttribute('color-theme','dark');
+      document.getElementsByClassName("ion-margin")[0].innerHTML = "Tmavá Téma"
     }
     else{
-      document.getElementById('dark-mode-icon').setAttribute('name', 'moon-outline');
+      document.getElementById('dark-mode-icon').setAttribute('name', 'sunny-outline');
       document.getElementById('main').setAttribute('color-theme','light');
       document.getElementById('main-content').setAttribute('color-theme','light');
+      document.getElementsByClassName("ion-margin")[0].innerHTML = "Svetlá Téma"
     }
   }
 

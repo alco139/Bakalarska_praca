@@ -21,6 +21,11 @@ export class LoginPage implements OnInit {
   signIn(){
     this.userService.signIn(this.email,this.password);
   }
-
+  filip(){
+    this.userService.signIn("filip@filip.sk","123456");
+  }
+  alan(){
+    this.userService.signIn("alan@alan.sk","123456");
+  }
 
 }

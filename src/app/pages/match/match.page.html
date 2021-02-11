@@ -8,18 +8,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let p of matches; let i = index">
-    <ion-card-content text-wrap (click)="goToMatch(p.joinKey)">
+  <ion-card *ngFor="let p of foundMatch; let i = index">
       <ion-label class="ion-text-center">
         Miesto: {{p.place}}
         <br>
-        Dátum: {{p.date}}
+        Dátum a čas: {{p.date}}
         <br>
-        Skóre: {{p.scoreTeamRed}}:{{p.scoreTeamBlue}}
-        <br> 
         Kód: {{p.joinKey}}
         <br>
       </ion-label>
-    </ion-card-content>
+      <ion-button (click)="delete(p.joinKey)">
+        <ion-icon name="trash-outline"></ion-icon>
+        <ion-label class="ion-margin">Vymazať</ion-label>
+      </ion-button>
   </ion-card>
 </ion-content>

@@ -18,14 +18,14 @@
           <ion-card-content>
             <form (ngSubmit)="sendMatch()">
               <ion-item>
-                <ion-label>dátum </ion-label>
+                <ion-label>Dátum a čas</ion-label>
                 <ion-input type="datetime-local" [(ngModel)]="date" name="title"></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label>Description</ion-label>
+                <ion-label>Miesto</ion-label>
                 <ion-input type="text" [(ngModel)]="place" name="description"></ion-input>
               </ion-item>
-              <button ion-button type="submit" block >Potvrdiť</button>
+              <ion-button ion-button type="submit" block >Potvrdiť</ion-button>
             </form>
           </ion-card-content>
         </ion-card>
