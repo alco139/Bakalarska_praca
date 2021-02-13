@@ -109,7 +109,6 @@ export class MatchService {
 
   async joinBluePlayer(joinKey){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
-      
       docs.forEach((doc) => {
         this.playersBlue = doc.data().playersBlue;
         this.playersBlue.push(this.userService.getId());
@@ -125,7 +124,6 @@ export class MatchService {
 
   async joinRedPlayer(joinKey){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
-      
       docs.forEach((doc) => {
         this.playersRed = doc.data().playersRed;
         this.playersRed.push(this.userService.getId());
