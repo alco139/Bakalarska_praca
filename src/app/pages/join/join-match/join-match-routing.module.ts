@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { JoinPage } from './join.page';
+import { JoinMatchPage } from './join-match.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: JoinPage
-  },
-  {
-    path: 'join-match',
-    loadChildren: () => import('./join-match/join-match.module').then( m => m.JoinMatchPageModule)
+    component: JoinMatchPage
   }
 ];
 
@@ -18,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class JoinPageRoutingModule {}
+export class JoinMatchPageRoutingModule {}

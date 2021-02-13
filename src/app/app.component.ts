@@ -25,7 +25,7 @@ export class AppComponent {
     },
     {
       title: 'Pripojiť sa na zápas',
-      url: '/join-match',
+      url: '/join/join-match',
       icon: 'link-outline'
     },
     {

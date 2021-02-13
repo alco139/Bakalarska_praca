@@ -1,0 +1,23 @@
+<ion-header id="main-content">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Hey<br>Football</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Zadaj kód zápasu</ion-label>
+    <ion-input type="text" [(ngModel)]="match_id" name="match_id"></ion-input>
+    <ion-button (click)="joinMatch()">Pripojiť</ion-button>
+</ion-item>
+
+<ion-item  [hidden]= isHidden >
+  <ion-label>Vyber si tím</ion-label>
+  <ion-button (click)="joinBlue()">Modrý</ion-button>
+  <ion-button (click)="joinRed()" color= "danger">Červený</ion-button>
+</ion-item>
+</ion-content>
+  
