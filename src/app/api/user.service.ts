@@ -14,21 +14,21 @@ export class UserService {
   username: string;
   email: string;
   id: string;
-  playerCollection = firebase.firestore().collection("players");
 
-  constructor(private router: Router) {}
-  
-  logOut(){
+  playerCollection = firebase.firestore().collection("players");
+  constructor(private router: Router) { }
+
+  logOut() {
     firebase.auth().signOut().then(() => {
       this.router.navigate(['/login'])
-    } 
+    }
     );
   }
 
-  signUp(email: string, password: string, confirmPassword: string, username: string){
-    if(password === confirmPassword){
-      firebase.auth().createUserWithEmailAndPassword(email,password).then((data) => {
-       
+  signUp(email: string, password: string, confirmPassword: string, username: string) {
+    if (password === confirmPassword) {
+      firebase.auth().createUserWithEmailAndPassword(email, password).then((data) => {
+
         var newUser: firebase.User = data.user;
         this.router.navigate(['/login']);
         newUser.updateProfile({
@@ -48,12 +48,12 @@ export class UserService {
       }).catch((err) => {
         alert(err);
       })
-      }
-      else {alert("Hesla sa nezhodujú")}
+    }
+    else { alert("Hesla sa nezhodujú") }
   }
 
-  signIn(email: string, password: string){
-    firebase.auth().signInWithEmailAndPassword(email,password).then((data) => {
+  signIn(email: string, password: string) {
+    firebase.auth().signInWithEmailAndPassword(email, password).then((data) => {
       this.router.navigate(['/profile']);
       this.username = data.user.displayName;
       this.email = data.user.email;
@@ -63,15 +63,21 @@ export class UserService {
     })
   }
 
-  getPlayerId(){
+  getPlayerId() {
     this.playerCollection.doc(this.id).get().then((doc) => {
-      if(doc.exists){
+      if (doc.exists) {
         console.log(doc.data().id)
         return doc.data().id;
       }
     })
   }
-  getId(){
+  getId() {
     return this.id;
+  }
+
+  getPlayerName(id) {
+    this.playerCollection.doc(id).get().then((doc) => {
+      return doc.data().name;
+    })
   }
 }

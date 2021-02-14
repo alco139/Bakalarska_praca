@@ -25,6 +25,14 @@
                 <ion-label>Miesto</ion-label>
                 <ion-input type="text" [(ngModel)]="place" name="description"></ion-input>
               </ion-item>
+              <ion-item>
+                <ion-label>Vyber si tím</ion-label>
+                <ion-select [(ngModel)]="team" name = "team" placeholder="">
+                  <ion-select-option value ="blue">Modrý</ion-select-option>
+                  <ion-select-option value ="red">Červený</ion-select-option>
+                  <ion-select-option value ="none">Nevyberať</ion-select-option>
+                </ion-select>
+              </ion-item>
               <ion-button ion-button type="submit" block >Potvrdiť</ion-button>
             </form>
           </ion-card-content>

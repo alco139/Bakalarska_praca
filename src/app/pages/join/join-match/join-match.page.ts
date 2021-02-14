@@ -19,11 +19,9 @@ export class JoinMatchPage implements OnInit {
   async joinMatch(){
     await this.matchService.findMatch(this.match_id);
     if(this.matchService.isFounded){
-      //console.log("funguje");
       this.isHidden = false;
     }
     else{
-      //console.log("nefunguje");
       alert("Zápas sa nenašiel")
     }
     

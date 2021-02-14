@@ -14,9 +14,11 @@
         <br>
         Dátum a čas: {{p.date}}
         <br>
-        Kód: {{p.joinKey}}
+        Skóre: {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}
         <br>
       </ion-label>
+      <ion-label>Kód:</ion-label>
+      <ion-input value=p.joinKey></ion-input>
       <ion-button (click)="delete(p.joinKey)">
         <ion-icon name="trash-outline"></ion-icon>
         <ion-label class="ion-margin">Vymazať</ion-label>

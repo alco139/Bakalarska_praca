@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import firebase from 'firebase';
-import { v4 as uuidv1 } from 'uuid';
+
 import { IonApp } from '@ionic/angular';
 import { exit } from 'process';
 
@@ -35,7 +35,8 @@ export class MatchService {
     
   }
 
-  addMatch(date: Date, place: string) {
+  addMatch(date: Date, place: string, joinKey: string) {
+    this.players = [];
     this.players.push(this.userService.getId());
     this.matchCollection.add({
       scoreTeamRed: 0,
@@ -45,7 +46,7 @@ export class MatchService {
       matchCreatorId: this.userService.getId(),
       playersRed: [],
       playersBlue: [],
-      joinKey: uuidv1().substring(0,8),
+      joinKey: joinKey,
       isActive: false,
       goals: [],
       players: this.players
@@ -114,6 +115,8 @@ export class MatchService {
         this.playersBlue.push(this.userService.getId());
         this.players = doc.data().players ;
         this.players.push(this.userService.getId());
+        this.players = this.players.filter(this.onlyUnique);
+        this.playersBlue = this.playersBlue.filter(this.onlyUnique);
         doc.ref.update({
           playersBlue: this.playersBlue,
           players: this.players
@@ -122,18 +125,40 @@ export class MatchService {
     })
   }
 
-  async joinRedPlayer(joinKey){
+  async joinRedPlayer(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
         this.playersRed = doc.data().playersRed;
         this.playersRed.push(this.userService.getId());
         this.players = doc.data().players;
         this.players.push(this.userService.getId());
+        this.players = this.players.filter(this.onlyUnique);
+        this.playersRed =this.playersRed.filter(this.onlyUnique);
         doc.ref.update({
           playersRed: this.playersRed,
           players: this.players
         })
       })
     })
+  }
+
+  async getRedPlayers(joinKey : string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        this.playersRed = doc.data().playersRed;
+      })
+    })
+  }
+
+  async getBluePlayers(joinKey : string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        this.playersBlue = doc.data().playersBlue;
+      })
+    })
+  }
+
+  onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
   }
 }
