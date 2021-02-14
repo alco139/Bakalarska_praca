@@ -1,7 +1,6 @@
+import { MatchService } from './match.service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import firebase from 'firebase';
 
 
@@ -14,7 +13,6 @@ export class UserService {
   username: string;
   email: string;
   id: string;
-
   playerCollection = firebase.firestore().collection("players");
   constructor(private router: Router) { }
 
@@ -73,11 +71,5 @@ export class UserService {
   }
   getId() {
     return this.id;
-  }
-
-  getPlayerName(id) {
-    this.playerCollection.doc(id).get().then((doc) => {
-      return doc.data().name;
-    })
   }
 }

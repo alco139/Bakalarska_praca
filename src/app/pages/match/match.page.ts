@@ -1,3 +1,4 @@
+import { UserMatchService } from './../../api/user-match.service';
 import { Component, OnInit } from '@angular/core';
 import { MatchService } from './../../api/match.service';
 import { UserService } from './../../api/user.service';
@@ -13,25 +14,34 @@ import { Observable } from 'rxjs';
 export class MatchPage implements OnInit {
 
   match: string;
-  playersBlueId: any[];
+  playersBlueId: any[] = [];
   playersRedId: any[] = [];
-  playersBlueNames: string[];
-  playersRedNames: string[];
+  playersBlueNames: string[] = [];
+  playersRedNames: string[] = [];
   public foundMatch = [];
-  constructor(private menu: MenuController, private router: Router, private userService: UserService, private matchService: MatchService) { }
+  constructor(private menu: MenuController, private router: Router, private userMatchService: UserMatchService, private matchService: MatchService) { }
 
   ngOnInit() {
   }
 
   async ionViewWillEnter() {
     this.match = this.matchService.matchToOpen;
-    await this.matchService.getMatch(this.match);
+    await this.matchService.getMatch(this.match); //find match
     this.foundMatch = this.matchService.foundMatch;
-    await this.matchService.getRedPlayers(this.match);
-    this.playersRedId = this.matchService.playersRed;
-    await this.matchService.getBluePlayers(this.match);
-    this.playersBlueId = this.matchService.playersBlue;
-    console.log(this.playersBlueId);
+    await this.matchService.getBluePlayers(this.match); //blue team ids
+    this.playersBlueId = this.matchService.playersCurrentTeam;
+
+    await this.userMatchService.getAllPlayersNames(this.playersBlueId); //blue team names
+    this.playersBlueNames = this.userMatchService.playersNames;
+
+    await this.matchService.getRedPlayers(this.match);//red team ids
+    this.playersRedId = this.matchService.playersCurrentTeam;
+
+    await this.userMatchService.getAllPlayersNames(this.playersRedId); //red team names
+    this.playersRedNames = this.userMatchService.playersNames;
+    
+    
+
   }
 
   ionViewWillLeave(){
@@ -42,5 +52,9 @@ export class MatchPage implements OnInit {
 
   delete(){
     this.matchService.deleteMatch(this.match);
+  }
+  print(){
+    console.log(this.playersRedNames);
+    console.log(this.playersBlueNames);
   }
 }

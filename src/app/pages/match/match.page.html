@@ -18,10 +18,10 @@
         <br>
       </ion-label>
       <ion-label>Kód:</ion-label>
-      <ion-input value=p.joinKey></ion-input>
-      <ion-button (click)="delete(p.joinKey)">
+      <ion-input value={{p.joinKey}}></ion-input>
+      <ion-tab-button (click)="delete(p.joinKey)">
         <ion-icon name="trash-outline"></ion-icon>
-        <ion-label class="ion-margin">Vymazať</ion-label>
-      </ion-button>
+        <ion-label>Vymazať</ion-label>
+      </ion-tab-button>
   </ion-card>
 </ion-content>

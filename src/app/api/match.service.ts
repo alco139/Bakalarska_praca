@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import firebase from 'firebase';
-
 import { IonApp } from '@ionic/angular';
 import { exit } from 'process';
 
@@ -19,8 +18,7 @@ export class MatchService {
   date: Date;
   place: string;
   matchCreator: string;
-  playersRed:any[] = [];
-  playersBlue:any[] = [];
+  playersCurrentTeam:any[] = [];
   joinKey: string;
   matches: any[] = [];
   players: any[] = [];
@@ -31,7 +29,7 @@ export class MatchService {
   isFounded: boolean;
   
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(public router: Router, private userService: UserService) {
     
   }
 
@@ -111,14 +109,14 @@ export class MatchService {
   async joinBluePlayer(joinKey){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersBlue = doc.data().playersBlue;
-        this.playersBlue.push(this.userService.getId());
+        this.playersCurrentTeam= doc.data().playersBlue;
+        this.playersCurrentTeam.push(this.userService.getId());
         this.players = doc.data().players ;
         this.players.push(this.userService.getId());
         this.players = this.players.filter(this.onlyUnique);
-        this.playersBlue = this.playersBlue.filter(this.onlyUnique);
+        this.playersCurrentTeam = this.playersCurrentTeam.filter(this.onlyUnique);
         doc.ref.update({
-          playersBlue: this.playersBlue,
+          playersBlue: this.playersCurrentTeam,
           players: this.players
         })
       })
@@ -128,14 +126,14 @@ export class MatchService {
   async joinRedPlayer(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersRed = doc.data().playersRed;
-        this.playersRed.push(this.userService.getId());
+        this.playersCurrentTeam = doc.data().playersRed;
+        this.playersCurrentTeam.push(this.userService.getId());
         this.players = doc.data().players;
         this.players.push(this.userService.getId());
         this.players = this.players.filter(this.onlyUnique);
-        this.playersRed =this.playersRed.filter(this.onlyUnique);
+        this.playersCurrentTeam = this.playersCurrentTeam.filter(this.onlyUnique);
         doc.ref.update({
-          playersRed: this.playersRed,
+          playersRed: this.playersCurrentTeam,
           players: this.players
         })
       })
@@ -145,7 +143,7 @@ export class MatchService {
   async getRedPlayers(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersRed = doc.data().playersRed;
+        this.playersCurrentTeam = doc.data().playersRed;
       })
     })
   }
@@ -153,7 +151,7 @@ export class MatchService {
   async getBluePlayers(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersBlue = doc.data().playersBlue;
+        this.playersCurrentTeam = doc.data().playersBlue;
       })
     })
   }

@@ -1,3 +1,4 @@
+import { MatchService } from './api/match.service';
 import { UserService } from './api/user.service';
 import { Component } from '@angular/core';
 import * as firebase from 'firebase';
@@ -40,7 +41,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private userService: UserService
+    private userService: UserService,
+    private MatchService: MatchService
   ) {
     this.initializeApp();
   }
