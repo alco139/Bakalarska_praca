@@ -13,12 +13,11 @@ export class UserMatchService {
   constructor(private matchService: MatchService, private userService: UserService) { }
   
   
-   async getAllPlayersNames(playersId: string[]) {
-    this.playersNames = [];
-     await playersId.forEach(async id =>{
-      await this.userService.playerCollection.doc(id).get().then((doc) => {
-        this.playersNames.push(doc.data().name);
-        console.log("mena :" + doc.data().name);
+    async getAllPlayersNames(playersIds: string[]) {
+      this.playersNames = [];
+      await playersIds.forEach( id =>{
+      this.userService.playerCollection.doc(id).get().then((doc) => {
+      this.playersNames.push(doc.data().name);
       })
     })
     // await this.matchService.playersCurrentTeam.forEach(player => {

@@ -13,6 +13,9 @@ export class UserService {
   username: string;
   email: string;
   id: string;
+  goals: number;
+  rating: number;
+
   playerCollection = firebase.firestore().collection("players");
   constructor(private router: Router) { }
 
@@ -36,12 +39,14 @@ export class UserService {
         this.username = data.user.displayName;
         this.email = data.user.email;
         this.id = data.user.uid;
+        this.goals = 0;
+        this.rating = 10;
         this.playerCollection.doc(data.user.uid).set({
           dressNumber: 10,
-          goals: 0,
+          goals: this.goals,
           id: data.user.uid,
           name: username,
-          rating: 10
+          rating: this.rating
         })
       }).catch((err) => {
         alert(err);
@@ -56,6 +61,8 @@ export class UserService {
       this.username = data.user.displayName;
       this.email = data.user.email;
       this.id = data.user.uid;
+      this.goals = 0;
+      this.rating = 10;
     }).catch((err) => {
       console.log(err);
     })

@@ -1,6 +1,7 @@
+import { Player } from './../models/player';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import firebase from 'firebase';
@@ -35,7 +36,10 @@ export class MatchService {
 
   addMatch(date: Date, place: string, joinKey: string) {
     this.players = [];
-    this.players.push(this.userService.getId());
+    
+    var player: Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,0,0);
+    this.players.push(player.toJson());
+    console.log(this.players)
     this.matchCollection.add({
       scoreTeamRed: 0,
       scoreTeamBlue: 0,
@@ -106,19 +110,29 @@ export class MatchService {
     }
   }
 
-  async joinBluePlayer(joinKey){
+  async joinBluePlayer(joinKey: string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersCurrentTeam= doc.data().playersBlue;
-        this.playersCurrentTeam.push(this.userService.getId());
-        this.players = doc.data().players ;
-        this.players.push(this.userService.getId());
-        this.players = this.players.filter(this.onlyUnique);
-        this.playersCurrentTeam = this.playersCurrentTeam.filter(this.onlyUnique);
-        doc.ref.update({
-          playersBlue: this.playersCurrentTeam,
-          players: this.players
-        })
+        //this.playersCurrentTeam= doc.data().playersBlue;
+        //this.players = doc.data().players ;
+        //this.players.push(player.toJson());
+        //this.playersCurrentTeam.push(player.toJson());
+        //this.players = this.players.filter(this.onlyUnique);
+        //this.playersCurrentTeam = this.playersCurrentTeam.filter(this.onlyUnique);
+        var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating)
+        if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
+          doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+          })
+        }
+        else{
+          doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
+          })
+        }
+      
+        
       })
     })
   }
@@ -126,16 +140,18 @@ export class MatchService {
   async joinRedPlayer(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersCurrentTeam = doc.data().playersRed;
-        this.playersCurrentTeam.push(this.userService.getId());
-        this.players = doc.data().players;
-        this.players.push(this.userService.getId());
-        this.players = this.players.filter(this.onlyUnique);
-        this.playersCurrentTeam = this.playersCurrentTeam.filter(this.onlyUnique);
-        doc.ref.update({
-          playersRed: this.playersCurrentTeam,
-          players: this.players
-        })
+        var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating)
+        if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
+          doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+          })
+        }
+        else{
+          doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
+          })
+        }
       })
     })
   }
