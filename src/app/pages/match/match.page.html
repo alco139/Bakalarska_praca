@@ -8,20 +8,38 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let p of foundMatch; let i = index">
-      <ion-label class="ion-text-center">
-        Miesto: {{p.place}}
-        <br>
-        Dátum a čas: {{p.date}}
-        <br>
-        Skóre: {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}
-        <br>
-      </ion-label>
-      <ion-label>Kód:</ion-label>
-      <ion-input value={{p.joinKey}}></ion-input>
-      <ion-tab-button (click)="delete(p.joinKey)">
+  <ion-card *ngFor="let p of foundMatch">
+    <ion-card-content>
+      <ion-item>
+        <ion-input type="text" value="{{p.place}}">Miesto:</ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Dátum: </ion-label>
+        <ion-datetime displayFormat="D MMM YYYY H:mm" value="{{p.date}}"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Skóre {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-input value={{p.joinKey}}>Kód: </ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-tabs style="min-height:80px ;">
+    <ion-tab-bar slot="bottom" class="ion-margin-top">
+      <ion-tab-button>
+        <ion-icon name="save-outline"></ion-icon>
+        <ion-label>Uložiť</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="print()">
         <ion-icon name="trash-outline"></ion-icon>
         <ion-label>Vymazať</ion-label>
       </ion-tab-button>
-  </ion-card>
+      <ion-tab-button (click)="print()">
+        <ion-icon name="finger-print-outline"></ion-icon>
+        <ion-label>Print</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

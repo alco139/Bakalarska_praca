@@ -1,12 +1,8 @@
 import { Player } from './../models/player';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
-import { ComponentFactoryResolver, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { Injectable } from '@angular/core';
 import firebase from 'firebase';
-import { IonApp } from '@ionic/angular';
-import { exit } from 'process';
 
 
 @Injectable({
@@ -113,12 +109,6 @@ export class MatchService {
   async joinBluePlayer(joinKey: string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        //this.playersCurrentTeam= doc.data().playersBlue;
-        //this.players = doc.data().players ;
-        //this.players.push(player.toJson());
-        //this.playersCurrentTeam.push(player.toJson());
-        //this.players = this.players.filter(this.onlyUnique);
-        //this.playersCurrentTeam = this.playersCurrentTeam.filter(this.onlyUnique);
         var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating)
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
@@ -127,6 +117,7 @@ export class MatchService {
         }
         else{
           doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayRemove(player.toJson()), 
             playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
             players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
           })
@@ -148,8 +139,9 @@ export class MatchService {
         }
         else{
           doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(player.toJson()), 
             playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
-            players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
           })
         }
       })
@@ -172,7 +164,7 @@ export class MatchService {
     })
   }
 
-  onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
+  
+
   }
-}
+  
