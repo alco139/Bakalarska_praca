@@ -1,8 +1,11 @@
+import { Player } from './../../models/player';
 import { UserMatchService } from './../../api/user-match.service';
 import { Component, OnInit } from '@angular/core';
 import { MatchService } from './../../api/match.service';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ToastController } from '@ionic/angular';
+import { Clipboard } from '@angular/cdk/clipboard';
+
 
 
 
@@ -22,7 +25,9 @@ export class MatchPage implements OnInit {
       private menu: MenuController,
       private router: Router, 
       private userMatchService: UserMatchService, 
-      private matchService: MatchService
+      private matchService: MatchService,
+      private clipboard: Clipboard,
+      private toastController: ToastController
      ) { }
 
   ngOnInit() {
@@ -53,12 +58,26 @@ export class MatchPage implements OnInit {
   delete(){
     this.matchService.deleteMatch(this.match);
   }
-  async print(){
-    for(var i = 0; i < this.bluePlayers.length; i++){
-      await console.log(this.bluePlayers[i]);
-      await console.log(this.redPlayers[i]);
-      await console.log(this.bluePlayers[i].name);
+  async copy(){
+    this.clipboard.copy(this.match);
+    const toast = await this.toastController.create({
+      message: 'Kód zápasu je uložený',
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
+
+  }
+  print(){
+
+  }
+  swapTeam(player : Player, team : string){
+    if(team == 'blue'){
+      this.matchService.swapBluePlayer(this.match,player);
     }
-    
+    else if(team == 'red'){
+      this.matchService.swapRedPlayer(this.match,player);
+    }
+
   }
 }

@@ -8,12 +8,13 @@ import { MatchPageRoutingModule } from './match-routing.module';
 
 import { MatchPage } from './match.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MatchPageRoutingModule
+    MatchPageRoutingModule,
   ],
   declarations: [MatchPage]
 })

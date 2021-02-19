@@ -113,6 +113,7 @@ export class MatchService {
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
             playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            playersRed: firebase.firestore.FieldValue.arrayRemove(player.toJson()),
           })
         }
         else{
@@ -135,6 +136,7 @@ export class MatchService {
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
             playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(player.toJson()), 
           })
         }
         else{
@@ -147,6 +149,51 @@ export class MatchService {
       })
     })
   }
+
+  async swapBluePlayer(joinKey : string, player: Player){
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating);
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
+          doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
+          })
+        }
+        else{
+          doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
+            playersRed: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+          })
+        }
+      })
+    })
+  }
+  async swapRedPlayer(joinKey : string, player: Player){
+   
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating);
+    console.log(swapPlayer.getId());
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        
+        if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
+          doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+            playersRed: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
+          })
+        }
+        else{
+          doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
+            playersBlue: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+          })
+        }
+      })
+    })
+  }
+
 
   async getRedPlayers(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {

@@ -1,8 +1,8 @@
 export class Player{
-    private id: string;
-    private name: string;
-    private goals: number;
-    private rating: number;
+    public id: string;
+    public name: string;
+    public goals: number;
+    public rating: number;
 
     constructor(id,name,goals,rating){
         this.id = id;
@@ -11,12 +11,24 @@ export class Player{
         this.rating = rating
 
     }
-    toJson(){
+    public toJson(){
         return ({
             id: this.id,
             name: this.name,
             goals: this.goals,
             rating: this.rating
         })
+    }
+    public getId(){
+        return this.id;
+    }
+    public getName(){
+        return this.name;
+    }
+    public getGoals(){
+        return this.goals;
+    }
+    public getRating(){
+        return this.rating;
     }
 }

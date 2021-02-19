@@ -9,21 +9,44 @@
 
 <ion-content>
   <ion-card *ngFor="let p of foundMatch">
-    <ion-card-content>
-      <ion-item>
-        <ion-input type="text" value="{{p.place}}">Miesto:</ion-input>
+    <ion-item>
+      <ion-input type="text" value="{{p.place}}">Miesto:</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Dátum: </ion-label>
+      <ion-datetime displayFormat="D MMM YYYY H:mm" value="{{p.date}}"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Skóre {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input value={{p.joinKey}}>Kód: </ion-input>
+      <ion-button (click)="copy()">Kopírovať</ion-button>
+    </ion-item>
+    <ion-label class="ion-margin" >Modrý tím</ion-label>
+    <div *ngIf="bluePlayers.length; else elseBlock">
+      <ion-item *ngFor="let b of bluePlayers">
+        <ion-label>
+          {{b.name}}
+          rating hráča: {{b.rating}}
+        </ion-label>
+        <ion-button (click)="swapTeam(b,'blue')">Swap</ion-button>
       </ion-item>
+    </div>
+    <ng-template #elseBlock>
       <ion-item>
-        <ion-label>Dátum: </ion-label>
-        <ion-datetime displayFormat="D MMM YYYY H:mm" value="{{p.date}}"></ion-datetime>
+        <ion-label>Tento tím je bez hráčov</ion-label>
       </ion-item>
-      <ion-item>
-        <ion-label>Skóre {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-input value={{p.joinKey}}>Kód: </ion-input>
-      </ion-item>
-    </ion-card-content>
+    </ng-template>
+    <br>
+    <ion-label class="ion-margin">Červený tím</ion-label>
+    <ion-item *ngFor="let r of redPlayers">
+      <ion-label>
+        {{r.name}}
+        rating hráča: {{r.rating}}
+      </ion-label>
+      <ion-button color="danger" (click)="swapTeam(r,'red')">Swap</ion-button>
+    </ion-item>
   </ion-card>
 
   <ion-tabs style="min-height:80px ;">
