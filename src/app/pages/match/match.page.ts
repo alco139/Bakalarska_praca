@@ -38,10 +38,10 @@ export class MatchPage implements OnInit {
     await this.matchService.getMatch(this.match); //find match
     this.foundMatch = this.matchService.foundMatch;
     await this.matchService.getBluePlayers(this.match); //blue team ids
-    this.bluePlayers = this.matchService.playersCurrentTeam;
+    this.bluePlayers = this.matchService.playersBlueTeam;
 
     await this.matchService.getRedPlayers(this.match);//red team ids
-    this.redPlayers = this.matchService.playersCurrentTeam;
+    this.redPlayers = this.matchService.playersRedTeam;
 
   
     
@@ -71,13 +71,27 @@ export class MatchPage implements OnInit {
   print(){
 
   }
-  swapTeam(player : Player, team : string){
+  async swapTeam(player : Player, team : string){
     if(team == 'blue'){
-      this.matchService.swapBluePlayer(this.match,player);
+      await this.matchService.swapBluePlayer(this.match,player).then(() => {
+        this.getPlayers(this.match)
+      });
     }
     else if(team == 'red'){
-      this.matchService.swapRedPlayer(this.match,player);
+      await this.matchService.swapRedPlayer(this.match,player).then(() => { 
+        this.getPlayers(this.match)
+      });;
     }
+    
 
+   
+    console.log(this.bluePlayers);
+    console.log(this.redPlayers);
+  }
+  async getPlayers(joinKey: string){
+    await this.matchService.getBluePlayers(this.match); 
+    this.bluePlayers = this.matchService.playersBlueTeam;
+    await this.matchService.getRedPlayers(this.match);
+    this.redPlayers = this.matchService.playersRedTeam;
   }
 }

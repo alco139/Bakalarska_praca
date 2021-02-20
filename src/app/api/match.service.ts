@@ -15,7 +15,8 @@ export class MatchService {
   date: Date;
   place: string;
   matchCreator: string;
-  playersCurrentTeam:any[] = [];
+  playersBlueTeam:any[] = [];
+  playersRedTeam:any[] = [];
   joinKey: string;
   matches: any[] = [];
   players: any[] = [];
@@ -164,16 +165,16 @@ export class MatchService {
           doc.ref.update({
             playersBlue: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
             playersRed: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
-            players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson())
           })
         }
       })
     })
+    await this.getPlayers(joinKey);
+    
   }
   async swapRedPlayer(joinKey : string, player: Player){
-   
     var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating);
-    console.log(swapPlayer.getId());
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
         
@@ -182,6 +183,7 @@ export class MatchService {
             playersBlue: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
             playersRed: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
           })
+          
         }
         else{
           doc.ref.update({
@@ -189,16 +191,20 @@ export class MatchService {
             playersBlue: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
             players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
           })
+          
         }
       })
     })
+    
+    await this.getPlayers(joinKey);
+   
   }
 
 
   async getRedPlayers(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersCurrentTeam = doc.data().playersRed;
+        this.playersRedTeam = doc.data().playersRed;
       })
     })
   }
@@ -206,12 +212,19 @@ export class MatchService {
   async getBluePlayers(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        this.playersCurrentTeam = doc.data().playersBlue;
+        this.playersBlueTeam = doc.data().playersBlue;
       })
     })
   }
 
-  
+  async getPlayers(joinKey: string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        this.playersBlueTeam = doc.data().playersBlue,
+        this.playersRedTeam = doc.data().playersRed
+      })
+    })
+  }
 
   }
   
