@@ -19,16 +19,18 @@ export class MatchPage implements OnInit {
 
   match: string;
   bluePlayers: any[] = [];
-  redPlayers:any[] = [];
-  public foundMatch = [];
+  redPlayers: any[] = [];
+  foundMatch = [];
+  players: any[] = [];
+
   constructor(
-      private menu: MenuController,
-      private router: Router, 
-      private userMatchService: UserMatchService, 
-      private matchService: MatchService,
-      private clipboard: Clipboard,
-      private toastController: ToastController
-     ) { }
+    private menu: MenuController,
+    private router: Router,
+    private userMatchService: UserMatchService,
+    private matchService: MatchService,
+    private clipboard: Clipboard,
+    private toastController: ToastController
+  ) { }
 
   ngOnInit() {
   }
@@ -42,23 +44,18 @@ export class MatchPage implements OnInit {
 
     await this.matchService.getRedPlayers(this.match);//red team ids
     this.redPlayers = this.matchService.playersRedTeam;
-
-  
-    
-    
-
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.match = "";
     this.foundMatch = [];
     this.matchService.clearFoundMatch()
   }
 
-  delete(){
+  delete() {
     this.matchService.deleteMatch(this.match);
   }
-  async copy(){
+  async copy() {
     this.clipboard.copy(this.match);
     const toast = await this.toastController.create({
       message: 'Kód zápasu je uložený',
@@ -68,30 +65,82 @@ export class MatchPage implements OnInit {
     toast.present();
 
   }
-  print(){
+  print() {
 
   }
-  async swapTeam(player : Player, team : string){
-    if(team == 'blue'){
-      await this.matchService.swapBluePlayer(this.match,player).then(() => {
+  async swapTeam(player: Player, team: string) {
+    if (team == 'blue') {
+      await this.matchService.swapBluePlayer(this.match, player).then(() => {
         this.getPlayers(this.match)
       });
     }
-    else if(team == 'red'){
-      await this.matchService.swapRedPlayer(this.match,player).then(() => { 
+    else if (team == 'red') {
+      await this.matchService.swapRedPlayer(this.match, player).then(() => {
         this.getPlayers(this.match)
       });;
     }
-    
-
-   
-    console.log(this.bluePlayers);
-    console.log(this.redPlayers);
   }
-  async getPlayers(joinKey: string){
-    await this.matchService.getBluePlayers(this.match); 
+  async getPlayers(joinKey: string) {
+    await this.matchService.getBluePlayers(this.match);
     this.bluePlayers = this.matchService.playersBlueTeam;
     await this.matchService.getRedPlayers(this.match);
     this.redPlayers = this.matchService.playersRedTeam;
   }
+
+  async leaveMatch(player: Player, team: string) {
+    if (team == 'blue') {
+      await this.matchService.leaveBluePlayer(this.match, player).then(() => {
+        this.getPlayers(this.match);
+      });
+    }
+    else if (team == 'red') {
+      await this.matchService.leaveRedPlayer(this.match, player).then(() => {
+        this.getPlayers(this.match);
+      });;
+    }
+  }
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+  async shuffle() {
+    await this.matchService.getAllPlayers(this.match);
+    this.players = this.matchService.players;
+    if (this.players.length % 2 == 0) {
+      this.redPlayers = [];
+      this.bluePlayers = []
+
+
+      for (let i = 0; i < this.players.length; i++) {
+        var randomIndexToSwap = this.getRandomInt(this.players.length);
+        var temp = this.players[randomIndexToSwap];
+        this.players[randomIndexToSwap] = this.players[i];
+        this.players[i] = temp;
+      }
+      for (let i = 0; i < this.players.length / 2; i++) {
+        this.bluePlayers.push(this.players[i]);
+      }
+      for (let i = this.players.length / 2; i < this.players.length; i++) {
+        this.redPlayers.push(this.players[i]);
+      }
+      await this.matchService.setBluePlayers(this.bluePlayers, this.match)
+      await this.matchService.setRedPlayers(this.redPlayers, this.match)
+
+      const toast = await this.toastController.create({
+        message: 'Tímy boli premiešané',
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present();
+    
+    }
+    else{
+      const toast = await this.toastController.create({
+        message: 'Nepárny počet hráčov v zápase',
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present();
+    }
+  }
+
 }

@@ -2,6 +2,7 @@ import { MatchService } from './match.service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
+import { Player } from '../models/player';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class UserService {
   id: string;
   goals: number;
   rating: number;
+  player: Player;
 
   playerCollection = firebase.firestore().collection("players");
   constructor(private router: Router) { }
@@ -63,6 +65,8 @@ export class UserService {
       this.id = data.user.uid;
       this.goals = 0;
       this.rating = 10;
+      this.player = new Player(data.user.uid,data.user.displayName,this.goals,this.rating)
+
     }).catch((err) => {
       console.log(err);
     })

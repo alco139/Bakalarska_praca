@@ -28,9 +28,10 @@
       <ion-item *ngFor="let b of bluePlayers">
         <ion-label>
           {{b.name}}
-          rating hráča: {{b.rating}}
+          rating: {{b.rating}}
         </ion-label>
-        <ion-button (click)="swapTeam(b,'blue')">Swap</ion-button>
+        <ion-button color="dark" (click)="leaveMatch(b,'blue')">Vyhodiť</ion-button>
+        <ion-button (click)="swapTeam(b,'blue')">Prehodiť</ion-button>
       </ion-item>
     </div>
     <ng-template #elseBlock>
@@ -40,13 +41,21 @@
     </ng-template>
     <br>
     <ion-label class="ion-margin">Červený tím</ion-label>
+    <div *ngIf="redPlayers.length; else elseBlock2">
     <ion-item *ngFor="let r of redPlayers">
       <ion-label>
         {{r.name}}
-        rating hráča: {{r.rating}}
+        rating: {{r.rating}}
       </ion-label>
-      <ion-button color="danger" (click)="swapTeam(r,'red')">Swap</ion-button>
+      <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
+      <ion-button color="danger" (click)="swapTeam(r,'red')">Prehodiť</ion-button>
     </ion-item>
+    </div>
+    <ng-template #elseBlock2>
+      <ion-item>
+        <ion-label>Tento tím je bez hráčov</ion-label>
+      </ion-item>
+    </ng-template>
   </ion-card>
 
   <ion-tabs style="min-height:80px ;">
@@ -59,9 +68,9 @@
         <ion-icon name="trash-outline"></ion-icon>
         <ion-label>Vymazať</ion-label>
       </ion-tab-button>
-      <ion-tab-button (click)="print()">
-        <ion-icon name="finger-print-outline"></ion-icon>
-        <ion-label>Print</ion-label>
+      <ion-tab-button (click)="shuffle()">
+        <ion-icon name="shuffle-outline"></ion-icon>
+        <ion-label>Zamiešať</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>

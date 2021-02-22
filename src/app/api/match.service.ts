@@ -58,9 +58,15 @@ export class MatchService {
         this.matches.push(doc.data());
       })
     })
+    this.matchCollection.where("players", "array-contains-any", [this.userService.player.toJson()]).get().then((docs) => {
+      docs.forEach((doc) => {
+        this.matches.push(doc.data());
+      })
+    })
   }
 
   getMatch(joinKey: string) {
+    this.foundMatch = [];
     if (joinKey) {
       this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
         docs.forEach((doc) => {
@@ -165,7 +171,6 @@ export class MatchService {
           doc.ref.update({
             playersBlue: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
             playersRed: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
-            players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson())
           })
         }
       })
@@ -189,7 +194,6 @@ export class MatchService {
           doc.ref.update({
             playersRed: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()), 
             playersBlue: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
-            players: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
           })
           
         }
@@ -226,5 +230,56 @@ export class MatchService {
     })
   }
 
+  async leaveBluePlayer(joinKey:string, player: Player){
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating);
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+          doc.ref.update({           
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()),
+            players: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson())
+          })
+        })    
+    })
+  }
+  async leaveRedPlayer(joinKey:string, player: Player){
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating);
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+          doc.ref.update({           
+            playersRed: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson()),
+            players: firebase.firestore.FieldValue.arrayRemove(swapPlayer.toJson())
+          })
+        })    
+    })
+  }
+  async getAllPlayers(joinKey: string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        this.players = doc.data().players      
+      })
+    })
+  }
+
+  async setRedPlayers(redPlayers: any[], joinKey: string){
+   
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+          doc.ref.update({           
+            playersRed: redPlayers,
+          })
+        })    
+    })
+  }
+
+  async setBluePlayers(bluePlayers: any[], joinKey: string){
+ 
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+          doc.ref.update({           
+            playersBlue: bluePlayers,
+          })
+        })    
+    })
+  }
   }
   

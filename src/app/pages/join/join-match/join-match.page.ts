@@ -1,4 +1,4 @@
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { MatchService } from './../../../api/match.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,29 +8,53 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./join-match.page.scss'],
 })
 export class JoinMatchPage implements OnInit {
-
-  match_id : string;
+  
+  foundMatch = [];
+  bluePlayers: any[] = [];
+  redPlayers:any[] = [];
+  joinKey : string;
   isHidden = true;
-  constructor(private matchService: MatchService) { }
+
+
+  constructor(private matchService: MatchService, private toastController: ToastController) { }
+  
 
   ngOnInit() {
   }
 
   async joinMatch(){
-    await this.matchService.findMatch(this.match_id);
+    this.bluePlayers = [];
+    this.redPlayers = [];
+    this.foundMatch = [];
+    await this.matchService.findMatch(this.joinKey);
     if(this.matchService.isFounded){
-      this.isHidden = false;
-    }
+    
+    await this.matchService.getMatch(this.joinKey); //find match
+    this.foundMatch = this.matchService.foundMatch;
+
+    await this.matchService.getBluePlayers(this.joinKey); //blue team ids
+    this.bluePlayers = this.matchService.playersBlueTeam;
+
+    await this.matchService.getRedPlayers(this.joinKey);//red team ids
+    this.redPlayers = this.matchService.playersRedTeam;
+
+    this.isHidden = false;
+  }
     else{
-      alert("Zápas sa nenašiel")
+      const toast = await this.toastController.create({
+        message: 'Zápas sa nenašiel',
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present();
     }
     
     
   }
   joinBlue(){
-    this.matchService.joinBluePlayer(this.match_id);
+    this.matchService.joinBluePlayer(this.joinKey);
   }
   joinRed(){
-    this.matchService.joinRedPlayer(this.match_id);
+    this.matchService.joinRedPlayer(this.joinKey);
   }
 }
