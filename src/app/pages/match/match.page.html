@@ -8,56 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let p of foundMatch">
-    <ion-item>
-      <ion-input type="text" value="{{p.place}}">Miesto:</ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Dátum: </ion-label>
-      <ion-datetime displayFormat="D MMM YYYY H:mm" value="{{p.date}}"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label>Skóre {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-input value={{p.joinKey}}>Kód: </ion-input>
-      <ion-button (click)="copy()">Kopírovať</ion-button>
-    </ion-item>
-    <ion-label class="ion-margin" >Modrý tím</ion-label>
-    <div *ngIf="bluePlayers.length; else elseBlock">
-      <ion-item *ngFor="let b of bluePlayers">
-        <ion-label>
-          {{b.name}}
-          rating: {{b.rating}}
-        </ion-label>
-        <ion-button color="dark" (click)="leaveMatch(b,'blue')">Vyhodiť</ion-button>
-        <ion-button (click)="swapTeam(b,'blue')">Prehodiť</ion-button>
-      </ion-item>
-    </div>
-    <ng-template #elseBlock>
-      <ion-item>
-        <ion-label>Tento tím je bez hráčov</ion-label>
-      </ion-item>
-    </ng-template>
-    <br>
-    <ion-label class="ion-margin">Červený tím</ion-label>
-    <div *ngIf="redPlayers.length; else elseBlock2">
-    <ion-item *ngFor="let r of redPlayers">
-      <ion-label>
-        {{r.name}}
-        rating: {{r.rating}}
-      </ion-label>
-      <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
-      <ion-button color="danger" (click)="swapTeam(r,'red')">Prehodiť</ion-button>
-    </ion-item>
-    </div>
-    <ng-template #elseBlock2>
-      <ion-item>
-        <ion-label>Tento tím je bez hráčov</ion-label>
-      </ion-item>
-    </ng-template>
-  </ion-card>
-
+  
   <ion-tabs style="min-height:80px ;">
     <ion-tab-bar slot="bottom" class="ion-margin-top">
       <ion-tab-button>
@@ -74,4 +25,108 @@
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
+
+  <div *ngFor="let p of foundMatch">
+    <ion-item>
+      <ion-input type="text" value="{{p.place}}">Miesto:</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Dátum: </ion-label>
+      <ion-datetime displayFormat="D MMM YYYY H:mm" value="{{p.date}}"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Skóre {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input value={{p.joinKey}}>Kód: </ion-input>
+      <ion-button (click)="copy()">Kopírovať</ion-button>
+    </ion-item>
+  </div>
+  <br>
+  <ion-label class="ion-margin">Modrý tím</ion-label>
+  <div *ngIf="bluePlayers.length; else elseBlock">
+    <ion-list>
+     <ion-item-sliding #item *ngFor="let b of bluePlayers">
+       <ion-item>
+         {{b.name}} rating: {{b.rating}}
+       </ion-item>
+       
+       <ion-item-options side="start">
+        <ion-button color="success" (click)="addGoal(b,'blue')">Gól</ion-button>
+      </ion-item-options>
+
+ 
+       <ion-item-options side="end">
+         <ion-button color="dark" (click)="leaveMatch(b,'blue')">Vyhodiť</ion-button>
+         <ion-button color= "danger"(click)="swapTeam(b,'blue')">Prehodiť</ion-button>
+       </ion-item-options>
+       
+     </ion-item-sliding>
+   </ion-list> 
+   </div>
+  <ng-template #elseBlock>
+    <ion-item>
+      <ion-label>Tento tím je bez hráčov</ion-label>
+    </ion-item>
+  </ng-template>
+  <br>
+
+  <ion-label class="ion-margin">Červený tím</ion-label>
+  <div *ngIf="redPlayers.length; else elseBlock2">
+   <ion-list>
+    <ion-item-sliding #item *ngFor="let r of redPlayers">
+      <ion-item>
+        {{r.name}} rating: {{r.rating}}
+      </ion-item>
+      
+      <ion-item-options side="start">
+        <ion-button color="success" (click)="addGoal(r,'red')">Gól</ion-button>
+      </ion-item-options>
+
+      <ion-item-options side="end">
+        <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
+        <ion-button (click)="swapTeam(r,'red')">Prehodiť</ion-button>
+      </ion-item-options>
+      
+    </ion-item-sliding>
+  </ion-list> 
+  </div>
+  <!-- <div *ngIf="redPlayers.length; else elseBlock2">
+    <ion-item *ngFor="let r of redPlayers">
+      <ion-label>
+        {{r.name}}
+        rating: {{r.rating}}
+      </ion-label>
+      <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
+      <ion-button (click)="swapTeam(r,'red')">Prehodiť</ion-button>
+    </ion-item>
+  </div> -->
+  <ng-template #elseBlock2>
+    <ion-item>
+      <ion-label>Tento tím je bez hráčov</ion-label>
+    </ion-item>
+  </ng-template>
+
+
+  <!-- <ion-list>
+    <ion-item-sliding #item *ngFor="let r of redPlayers">
+      <ion-item>
+        {{r.name}} rating: {{r.rating}}
+      </ion-item>
+      
+      <ion-item-options side="start">
+        <ion-button>Gól</ion-button>
+      </ion-item-options>
+
+      <ion-item-options side="end">
+        <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
+        <ion-button (click)="swapTeam(r,'red')">Prehodiť</ion-button>
+      </ion-item-options>
+      
+    </ion-item-sliding>
+  </ion-list> -->
+
+  
+
+  
 </ion-content>

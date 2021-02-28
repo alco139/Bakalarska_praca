@@ -57,30 +57,49 @@ export class UserService {
     else { alert("Hesla sa nezhodujú") }
   }
 
-  signIn(email: string, password: string) {
-    firebase.auth().signInWithEmailAndPassword(email, password).then((data) => {
+  async signIn(email: string, password: string) {
+    await firebase.auth().signInWithEmailAndPassword(email, password).then((data) => {
       this.router.navigate(['/profile']);
       this.username = data.user.displayName;
       this.email = data.user.email;
       this.id = data.user.uid;
-      this.goals = 0;
-      this.rating = 10;
-      this.player = new Player(data.user.uid,data.user.displayName,this.goals,this.rating)
+      
 
     }).catch((err) => {
       console.log(err);
+    })
+    await this.playerCollection.doc(this.id).get().then((doc) => {
+     
+      this.goals = doc.data().goals;
+      this.rating = doc.data().rating;
+      this.player = new Player(this.id,this.username,this.goals,this.rating);
     })
   }
 
   getPlayerId() {
     this.playerCollection.doc(this.id).get().then((doc) => {
       if (doc.exists) {
-        console.log(doc.data().id)
+        console.log(this.goals)
         return doc.data().id;
       }
     })
   }
   getId() {
     return this.id;
+  }
+
+  async getStats(){
+    await this.playerCollection.doc(this.id).get().then((doc) => {
+     
+      this.goals = doc.data().goals;
+      this.rating = doc.data().rating;
+    })
+  }
+  async updateStats(player: Player){
+    this.goals++;
+    var playerRef = this.playerCollection.doc(player.id);
+    await playerRef.update({
+      goals: this.goals
+  })
   }
 }

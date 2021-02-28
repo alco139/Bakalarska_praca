@@ -1,6 +1,9 @@
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { MatchService } from './match.service';
+import { Player } from '../models/player';
+import { Goal } from '../models/goal';
+import { join } from 'path';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +11,8 @@ import { MatchService } from './match.service';
 export class UserMatchService {
   
   playersNames: string[] = [];
-
+  goal: Goal;
+  
 
   constructor(private matchService: MatchService, private userService: UserService) { }
   
@@ -20,12 +24,11 @@ export class UserMatchService {
       this.playersNames.push(doc.data().name);
       })
     })
-    // await this.matchService.playersCurrentTeam.forEach(player => {
-    //   this.userService.playerCollection.doc(player).get().then((doc) => {
-    //     console.log(doc.data().name);
-    //     this.playersNames.push(doc.data().name);
-    //   })
-    // });
-   
+  }
+  async addGoal(player: Player, joinKey : string,team:string){
+    this.goal  = new Goal(player.id, joinKey);
+    this.userService.getStats();
+    this.userService.updateStats(player);
+    this.matchService.addGoalToMatch(joinKey, this.goal,team);
   }
 }

@@ -127,7 +127,7 @@ export class MatchPage implements OnInit {
 
       const toast = await this.toastController.create({
         message: 'Tímy boli premiešané',
-        duration: 2000,
+        duration: 1500,
         position: 'top'
       });
       toast.present();
@@ -141,6 +141,11 @@ export class MatchPage implements OnInit {
       });
       toast.present();
     }
+  }
+  async addGoal(player: Player, team: string){
+    await this.userMatchService.addGoal(player,this.match, team);
+    await this.matchService.getMatch(this.match);
+    this.foundMatch = this.matchService.foundMatch; 
   }
 
 }

@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
+import { Goal } from '../models/goal';
 
 
 @Injectable({
@@ -46,21 +47,17 @@ export class MatchService {
       playersRed: [],
       playersBlue: [],
       joinKey: joinKey,
-      isActive: false,
       goals: [],
       players: this.players
-
     })
   }
-  getMatches() {
-    this.matchCollection.where("matchCreatorId", "==", this.userService.id).get().then((docs) => {
+  async getMatches() { 
+    await this.matchCollection.get().then((docs) => {
       docs.forEach((doc) => {
-        this.matches.push(doc.data());
-      })
-    })
-    this.matchCollection.where("players", "array-contains-any", [this.userService.player.toJson()]).get().then((docs) => {
-      docs.forEach((doc) => {
-        this.matches.push(doc.data());
+        doc.data().players.forEach((player)=>{
+          if(player.id == this.userService.player.id)
+            this.matches.push(doc.data());
+        })
       })
     })
   }
@@ -130,8 +127,6 @@ export class MatchService {
             players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
           })
         }
-      
-        
       })
     })
   }
@@ -175,14 +170,12 @@ export class MatchService {
         }
       })
     })
-    await this.getPlayers(joinKey);
-    
+    await this.getPlayers(joinKey);  
   }
   async swapRedPlayer(joinKey : string, player: Player){
     var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating);
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
             playersBlue: firebase.firestore.FieldValue.arrayUnion(swapPlayer.toJson()),
@@ -199,9 +192,7 @@ export class MatchService {
         }
       })
     })
-    
     await this.getPlayers(joinKey);
-   
   }
 
 
@@ -261,7 +252,6 @@ export class MatchService {
   }
 
   async setRedPlayers(redPlayers: any[], joinKey: string){
-   
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
           doc.ref.update({           
@@ -272,12 +262,36 @@ export class MatchService {
   }
 
   async setBluePlayers(bluePlayers: any[], joinKey: string){
- 
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
           doc.ref.update({           
             playersBlue: bluePlayers,
           })
+        })    
+    })
+  }
+
+  async addGoalToMatch(joinKey: String, goal: Goal,team: string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+          var tmp  = doc.data().goals;
+          tmp.push(goal.toJson());
+          if(team == "blue"){
+            let goals = doc.data().scoreTeamBlue
+            goals++;
+            doc.ref.update({           
+              goals: tmp,
+              scoreTeamBlue: goals,
+              })
+          }
+          else if(team == "red"){
+            let goals = doc.data().scoreTeamRed
+            goals++;
+            doc.ref.update({           
+              goals: tmp,
+              scoreTeamRed: goals,
+              })
+          }
         })    
     })
   }
