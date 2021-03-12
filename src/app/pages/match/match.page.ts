@@ -1,9 +1,11 @@
+import { GoalService } from './../../api/goal.service';
+import { UserService } from './../../api/user.service';
 import { Player } from './../../models/player';
 import { UserMatchService } from './../../api/user-match.service';
 import { Component, OnInit } from '@angular/core';
 import { MatchService } from './../../api/match.service';
 import { Router } from '@angular/router';
-import { MenuController, ToastController } from '@ionic/angular';
+import { IonRefresher, MenuController, ToastController } from '@ionic/angular';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 
@@ -29,10 +31,12 @@ export class MatchPage implements OnInit {
     private userMatchService: UserMatchService,
     private matchService: MatchService,
     private clipboard: Clipboard,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private goalService: GoalService
   ) { }
 
   ngOnInit() {
+    
   }
 
   async ionViewWillEnter() {
@@ -45,6 +49,7 @@ export class MatchPage implements OnInit {
     await this.matchService.getRedPlayers(this.match);//red team ids
     this.redPlayers = this.matchService.playersRedTeam;
   }
+
 
   ionViewWillLeave() {
     this.match = "";
@@ -144,8 +149,27 @@ export class MatchPage implements OnInit {
   }
   async addGoal(player: Player, team: string){
     await this.userMatchService.addGoal(player,this.match, team);
-    await this.matchService.getMatch(this.match);
-    this.foundMatch = this.matchService.foundMatch; 
+    this.foundMatch = this.matchService.foundMatch;
+    this.goalService.addGoal(this.match, player);
+
+  
+  }
+  
+  async deleteGoal(player: Player, team:string){
+    if(await this.goalService.removeGoal(this.match,player) == 0){
+      await this.userMatchService.removeGoal(player,this.match,team);
+    }
+    else{
+      const toast = await this.toastController.create({
+        message: 'Tento hráč nestrelil',
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present();
+  
+    }
+    this.foundMatch = this.matchService.foundMatch;
+    
   }
 
 }

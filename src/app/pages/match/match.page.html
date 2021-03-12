@@ -52,7 +52,8 @@
        </ion-item>
        
        <ion-item-options side="start">
-        <ion-button color="success" (click)="addGoal(b,'blue')">Gól</ion-button>
+        <ion-button color="success" (click)="addGoal(b,'blue')">+</ion-button>
+        <ion-button color="danger" (click)="deleteGoal(b,'blue')">-</ion-button>
       </ion-item-options>
 
  
@@ -80,8 +81,10 @@
       </ion-item>
       
       <ion-item-options side="start">
-        <ion-button color="success" (click)="addGoal(r,'red')">Gól</ion-button>
+        <ion-button color="success" (click)="addGoal(r,'red')">+</ion-button>
+        <ion-button color="danger" (click)="deleteGoal(r,'red')">-</ion-button>
       </ion-item-options>
+      
 
       <ion-item-options side="end">
         <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>

@@ -17,6 +17,7 @@ export class UserService {
   goals: number;
   rating: number;
   player: Player;
+  matches: number;
 
   playerCollection = firebase.firestore().collection("players");
   constructor(private router: Router) { }
@@ -48,7 +49,8 @@ export class UserService {
           goals: this.goals,
           id: data.user.uid,
           name: username,
-          rating: this.rating
+          rating: this.rating,
+          matches: 0
         })
       }).catch((err) => {
         alert(err);
@@ -71,8 +73,9 @@ export class UserService {
     await this.playerCollection.doc(this.id).get().then((doc) => {
      
       this.goals = doc.data().goals;
-      this.rating = doc.data().rating;
-      this.player = new Player(this.id,this.username,this.goals,this.rating);
+      this.rating = doc.data().rating; 
+      this.matches = doc.data().matches;
+      this.player = new Player(this.id,this.username,this.goals,this.rating,this.matches);
     })
   }
 
@@ -88,18 +91,47 @@ export class UserService {
     return this.id;
   }
 
-  async getStats(){
-    await this.playerCollection.doc(this.id).get().then((doc) => {
+  async getStats(player: Player){
+    await this.playerCollection.doc(player.id).get().then((doc) => {
      
-      this.goals = doc.data().goals;
-      this.rating = doc.data().rating;
+      this.goals = doc.data().goals,
+      this.rating = doc.data().rating,
+      this.matches = doc.data().matches
     })
   }
-  async updateStats(player: Player){
+  async addGoal(player: Player){
     this.goals++;
+  }
+  addMatch(player: Player){
+    this.matches++;
+  }
+  async updateStats(player: Player){
+    var playerRef = this.playerCollection.doc(player.id);
+    await playerRef.update({
+      goals: this.goals,
+      rating: this.rating,
+      matches: this.matches
+  })
+  }
+  async removeGoal(player: Player){
+    this.goals--;
     var playerRef = this.playerCollection.doc(player.id);
     await playerRef.update({
       goals: this.goals
   })
   }
-}
+  async joinMatch(){
+    var playerRef = this.playerCollection.doc(firebase.auth().currentUser.uid);
+    var tmp;
+    await playerRef.get().then((doc) => {
+      tmp = doc.data().matches;
+      tmp++;
+
+    })
+    await playerRef.update({
+      matches : tmp
+    })
+  }
+  }
+
+  

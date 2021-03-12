@@ -3,32 +3,22 @@ export class Player{
     public name: string;
     public goals: number;
     public rating: number;
+    public matches: number;
 
-    constructor(id,name,goals,rating){
+    constructor(id,name,goals,rating,matches){
         this.id = id;
         this.name = name;
         this.goals = goals;
-        this.rating = rating
-
+        this.rating = rating;
+        this.matches = matches;
     }
     public toJson(){
         return ({
             id: this.id,
             name: this.name,
             goals: this.goals,
-            rating: this.rating
+            rating: this.rating,
+            matches: this.matches
         })
-    }
-    public getId(){
-        return this.id;
-    }
-    public getName(){
-        return this.name;
-    }
-    public getGoals(){
-        return this.goals;
-    }
-    public getRating(){
-        return this.rating;
     }
 }

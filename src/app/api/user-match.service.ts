@@ -9,26 +9,36 @@ import { Goal } from '../models/goal';
   providedIn: 'root'
 })
 export class UserMatchService {
-  
+
   playersNames: string[] = [];
   goal: Goal;
-  
+
 
   constructor(private matchService: MatchService, private userService: UserService) { }
-  
-  
-    async getAllPlayersNames(playersIds: string[]) {
-      this.playersNames = [];
-      await playersIds.forEach( id =>{
+
+
+  async getAllPlayersNames(playersIds: string[]) {
+    this.playersNames = [];
+    await playersIds.forEach(id => {
       this.userService.playerCollection.doc(id).get().then((doc) => {
-      this.playersNames.push(doc.data().name);
+        this.playersNames.push(doc.data().name);
       })
     })
   }
-  async addGoal(player: Player, joinKey : string,team:string){
-    this.goal  = new Goal(player.id, joinKey);
-    this.userService.getStats();
-    this.userService.updateStats(player);
-    this.matchService.addGoalToMatch(joinKey, this.goal,team);
+  addGoal(player: Player, joinKey: string, team: string) {
+    this.userService.getStats(player).then(() => {
+      this.userService.addGoal(player).then(() => {
+        this.userService.updateStats(player).then(() => {
+          this.matchService.addGoalToMatch(joinKey, team);
+        })
+      })
+    });
+
+
+  }
+
+  async removeGoal(player: Player, joinKey: string, team: string) {
+    this.matchService.removeGoal(joinKey, team);
+    this.userService.removeGoal(player);
   }
 }

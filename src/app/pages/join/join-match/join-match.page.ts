@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { UserService } from './../../../api/user.service';
 import { Platform, ToastController } from '@ionic/angular';
 import { MatchService } from './../../../api/match.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +18,7 @@ export class JoinMatchPage implements OnInit {
   isHidden = true;
 
 
-  constructor(private matchService: MatchService, private toastController: ToastController) { }
+  constructor(private router: Router,private matchService: MatchService, private toastController: ToastController,private userService: UserService) { }
   
 
   ngOnInit() {
@@ -53,8 +55,12 @@ export class JoinMatchPage implements OnInit {
   }
   joinBlue(){
     this.matchService.joinBluePlayer(this.joinKey);
+    this.userService.joinMatch();
+    this.router.navigate['/my-matches'];
   }
   joinRed(){
     this.matchService.joinRedPlayer(this.joinKey);
+    this.userService.joinMatch();
+    this.router.navigate['/my-matches'];
   }
 }
