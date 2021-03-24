@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
+import { exit } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import firebase from 'firebase';
 export class GoalService {
 
   goalCollection = firebase.firestore().collection("goals");
-
+  isFounded = false;
 
   constructor() { }
 
@@ -20,13 +21,21 @@ export class GoalService {
   }
 
   async removeGoal(matchId:string, player){
+    this.isFounded = false;
     await this.goalCollection.where("matchId", "==",matchId ).where("playerId","==",player.id).get().then((docs) => {
-      docs.forEach((doc) => {
-        doc.ref.delete();
-        return 0;
-      })
-      
+      var tmp = 0;
+        docs.forEach((doc)=>{
+          if(tmp == 0){
+            doc.ref.delete();
+            this.isFounded = true;
+            tmp++;
+          }
+          
+        })
+       
     })
-    return -1;
+   
+    
+    
   }
 }

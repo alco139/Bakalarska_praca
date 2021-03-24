@@ -4,13 +4,15 @@ export class Player{
     public goals: number;
     public rating: number;
     public matches: number;
+    public dressNumber: number;
 
-    constructor(id,name,goals,rating,matches){
+    constructor(id,name,goals,rating,matches,dressNumber){
         this.id = id;
         this.name = name;
         this.goals = goals;
         this.rating = rating;
         this.matches = matches;
+        this.dressNumber = dressNumber;
     }
     public toJson(){
         return ({
@@ -18,7 +20,8 @@ export class Player{
             name: this.name,
             goals: this.goals,
             rating: this.rating,
-            matches: this.matches
+            matches: this.matches,
+            dressNumber: this.dressNumber
         })
     }
 }

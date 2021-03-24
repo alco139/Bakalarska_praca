@@ -35,7 +35,8 @@ export class MatchService {
   addMatch(date: Date, place: string, joinKey: string) {
     this.players = [];
     
-    var player: Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating,this.userService.matches);
+    var player: Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,
+                                      this.userService.goals,this.userService.rating,this.userService.matches,this.userService.dressNumber);
     this.players.push(player.toJson());
     this.matchCollection.add({
       scoreTeamRed: 0,
@@ -113,7 +114,7 @@ export class MatchService {
   async joinBluePlayer(joinKey: string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating,this.userService.matches)
+        var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating,this.userService.matches,this.userService.dressNumber)
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
             playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
@@ -135,7 +136,7 @@ export class MatchService {
   async joinRedPlayer(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
-        var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating,this.userService.matches)
+        var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating,this.userService.matches,this.userService.dressNumber)
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
             playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
@@ -155,7 +156,7 @@ export class MatchService {
   }
 
   async swapBluePlayer(joinKey : string, player: Player){
-    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches);
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches,player.dressNumber);
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
@@ -175,7 +176,7 @@ export class MatchService {
     await this.getPlayers(joinKey);  
   }
   async swapRedPlayer(joinKey : string, player: Player){
-    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches);
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches,player.dressNumber);
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
@@ -224,7 +225,7 @@ export class MatchService {
   }
 
   async leaveBluePlayer(joinKey:string, player: Player){
-    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches);
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches,player.dressNumber);
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
           doc.ref.update({           
@@ -235,7 +236,7 @@ export class MatchService {
     })
   }
   async leaveRedPlayer(joinKey:string, player: Player){
-    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches);
+    var swapPlayer : Player = new Player(player.id, player.name, player.goals, player.rating,player.matches,player.dressNumber);
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
           doc.ref.update({           

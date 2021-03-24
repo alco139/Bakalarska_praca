@@ -94,40 +94,12 @@
     </ion-item-sliding>
   </ion-list> 
   </div>
-  <!-- <div *ngIf="redPlayers.length; else elseBlock2">
-    <ion-item *ngFor="let r of redPlayers">
-      <ion-label>
-        {{r.name}}
-        rating: {{r.rating}}
-      </ion-label>
-      <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
-      <ion-button (click)="swapTeam(r,'red')">Prehodiť</ion-button>
-    </ion-item>
-  </div> -->
   <ng-template #elseBlock2>
     <ion-item>
       <ion-label>Tento tím je bez hráčov</ion-label>
     </ion-item>
   </ng-template>
 
-
-  <!-- <ion-list>
-    <ion-item-sliding #item *ngFor="let r of redPlayers">
-      <ion-item>
-        {{r.name}} rating: {{r.rating}}
-      </ion-item>
-      
-      <ion-item-options side="start">
-        <ion-button>Gól</ion-button>
-      </ion-item-options>
-
-      <ion-item-options side="end">
-        <ion-button color="dark" (click)="leaveMatch(r,'red')">Vyhodiť</ion-button>
-        <ion-button (click)="swapTeam(r,'red')">Prehodiť</ion-button>
-      </ion-item-options>
-      
-    </ion-item-sliding>
-  </ion-list> -->
 
   
 

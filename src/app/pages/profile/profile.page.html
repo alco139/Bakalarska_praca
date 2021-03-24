@@ -8,21 +8,30 @@
 </ion-header>
 
 <ion-content id="main">
+  <ion-tabs style="min-height:80px ;">
+    <ion-tab-bar slot="bottom" class="ion-margin-top">
+      <ion-tab-button (click)="changeProfile()">
+        <ion-icon name="pencil-outline"></ion-icon>
+        <ion-label>Upraviť profil</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
   <ion-grid class="ion-margin-top" id="profile-text">
     <ion-row>
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
         <ion-card class="profile-card">
 
           <ion-card-header>
-            <ion-card-title>Meno</ion-card-title>
             <ion-card-title>{{username}}</ion-card-title>
-            <br>
             <ion-card-subtitle>Emailová adresa: <strong>{{email}}</strong></ion-card-subtitle>
-            <p class="ion-text-center"><a routerLink="/profile/update-email">zmeň email</a></p>
+            <ion-card-subtitle>Číslo dresu: <strong>{{dressNumber}}</strong></ion-card-subtitle>
+        
           </ion-card-header>
           <ion-card-content>
-            <ion-button (click)="getPlayer()">SKUSKA</ion-button>
-            <p>toto je description</p>
+            <p>Počet strelených gólov: {{goals}}</p>
+            <p>Počet odohratých zápasov: {{matches}}</p>
+            <p>Priemerný počet gólov na zápas: {{goals/matches}}</p>
+            <p>Rating hráča: {{rating}}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

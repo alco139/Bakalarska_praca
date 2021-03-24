@@ -156,7 +156,8 @@ export class MatchPage implements OnInit {
   }
   
   async deleteGoal(player: Player, team:string){
-    if(await this.goalService.removeGoal(this.match,player) == 0){
+    await this.goalService.removeGoal(this.match,player);
+    if(this.goalService.isFounded){
       await this.userMatchService.removeGoal(player,this.match,team);
     }
     else{

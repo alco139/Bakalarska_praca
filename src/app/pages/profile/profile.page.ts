@@ -11,9 +11,12 @@ import * as firebase from 'firebase';
 })
 export class ProfilePage implements OnInit {
 
-  username: string = firebase.default.auth().currentUser.displayName;
+  username: string = this.userService.username;
   email: string = firebase.default.auth().currentUser.email;
-  
+  dressNumber: number;
+  goals: number;
+  matches: number;
+  rating: number;
   constructor(private menu: MenuController, private router:Router, private userService: UserService) {
   }
 
@@ -34,12 +37,28 @@ export class ProfilePage implements OnInit {
       document.getElementById('main-content').setAttribute('color-theme','light');
     }
   }
+  
+  async ionViewDidEnter() {
+
+      this.userService.getStats(this.userService.player).then(()=> {
+        this.goals = this.userService.goals;
+        this.matches = this.userService.matches;
+        this.rating = this.userService.rating;
+        this.dressNumber = this.userService.dressNumber;
+        this.username = this.userService.username;
+      })
+     
+ 
+    
+  }
 
   logOut(){
     this.userService.logOut();
   }
-  
+  changeProfile(){
+    this.router.navigate(['/updateProfil']);
+  }
   getPlayer(){
-    this.userService.getPlayerId();
+    console.log(this.userService.player);
   }
 }

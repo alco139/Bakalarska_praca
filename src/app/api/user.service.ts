@@ -18,6 +18,7 @@ export class UserService {
   rating: number;
   player: Player;
   matches: number;
+  dressNumber: number;
 
   playerCollection = firebase.firestore().collection("players");
   constructor(private router: Router) { }
@@ -45,7 +46,7 @@ export class UserService {
         this.goals = 0;
         this.rating = 10;
         this.playerCollection.doc(data.user.uid).set({
-          dressNumber: 10,
+          dressNumber: 0,
           goals: this.goals,
           id: data.user.uid,
           name: username,
@@ -75,7 +76,8 @@ export class UserService {
       this.goals = doc.data().goals;
       this.rating = doc.data().rating; 
       this.matches = doc.data().matches;
-      this.player = new Player(this.id,this.username,this.goals,this.rating,this.matches);
+      this.dressNumber = doc.data().dressNumber;
+      this.player = new Player(this.id,this.username,this.goals,this.rating,this.matches,this.dressNumber);
     })
   }
 
@@ -92,11 +94,14 @@ export class UserService {
   }
 
   async getStats(player: Player){
+    await console.log(player);
     await this.playerCollection.doc(player.id).get().then((doc) => {
      
       this.goals = doc.data().goals,
       this.rating = doc.data().rating,
-      this.matches = doc.data().matches
+      this.matches = doc.data().matches,
+      this.dressNumber = doc.data().dressNumber,
+      this.player = new Player(this.id,this.username,this.goals,this.rating,this.matches,this.dressNumber);
     })
   }
   async addGoal(player: Player){
@@ -104,6 +109,16 @@ export class UserService {
   }
   addMatch(player: Player){
     this.matches++;
+  }
+  async updatePersonalInfo(username:string, dressNumber:number){
+    var playerRef = this.playerCollection.doc(firebase.auth().currentUser.uid);
+    await playerRef.update({
+      dressNumber: dressNumber,
+      name: username
+  }).then(()=>{
+      this.username = username;
+      this.dressNumber= dressNumber;
+  })
   }
   async updateStats(player: Player){
     var playerRef = this.playerCollection.doc(player.id);

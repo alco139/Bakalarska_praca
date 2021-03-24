@@ -5,10 +5,25 @@
 </ion-header>
 
 <ion-content>
+  <ion-tabs style="min-height:80px ;">
+    <ion-tab-bar slot="bottom" class="ion-margin-top">
+      <ion-tab-button (click)="save()">
+        <ion-icon name="save-outline"></ion-icon>
+        <ion-label>Uložiť</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+  <ion-item>
+    <ion-label>Meno</ion-label>
+    <ion-input type="text" name="name" [(ngModel)]="name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Číslo dresu</ion-label>
+    <ion-input type="number" name="number" [(ngModel)]="num"></ion-input>
+  </ion-item>
   <ion-item>
     <ion-label>Email</ion-label>
     <ion-input type="email" name="email" [(ngModel)]="email"></ion-input>
   </ion-item>
 
-  <ion-button expand="full" (click)="updateEmail()">Zmeň email</ion-button>
 </ion-content>

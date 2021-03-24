@@ -26,7 +26,8 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
-  },  {
+  },
+  {
     path: 'create-match',
     loadChildren: () => import('./pages/create-match/create-match.module').then( m => m.CreateMatchPageModule)
   },
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'match',
     loadChildren: () => import('./pages/match/match.module').then( m => m.MatchPageModule)
+  },
+  {
+    path: 'updateProfil',
+    loadChildren: () => import('./pages/profile/update-email/update-email.module').then( m => m.UpdateEmailPageModule)
   },
 
 

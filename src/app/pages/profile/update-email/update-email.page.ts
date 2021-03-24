@@ -11,14 +11,20 @@ import * as firebase from 'firebase';
 export class UpdateEmailPage implements OnInit {
 
   email: string = firebase.default.auth().currentUser.email;
-  constructor(private router: Router) { }
+  name: string = this.userService.username;
+  num:number = this.userService.dressNumber;
+  constructor(private router: Router,private userService: UserService) { }
 
   ngOnInit() {
     
   }
 
-  updateEmail(){
+  save(){
     firebase.default.auth().currentUser.updateEmail(this.email);
+    firebase.default.auth().currentUser.updateProfile({
+      displayName: this.name
+    })
+    this.userService.updatePersonalInfo(this.name,this.num);
     this.router.navigate(['/profile']);
   }
 
