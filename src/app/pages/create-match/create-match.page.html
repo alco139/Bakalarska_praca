@@ -13,28 +13,25 @@
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
         <ion-card class="profile-card">
           <ion-card-header>
-            <ion-label>Nový zápas</ion-label>
+            <ion-card-title>Nový zápas</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <form (ngSubmit)="sendMatch()">
               <ion-item>
-                <ion-label>Dátum a čas</ion-label>
+                <ion-label  position="floating">Dátum a čas</ion-label>
                 <ion-datetime displayFormat="D MMM YYYY H:mm" [(ngModel)]="date" name="title"></ion-datetime>
               </ion-item>
               <ion-item>
-                <ion-label>Miesto</ion-label>
+                <ion-label position="floating" >Miesto</ion-label>
                 <ion-input type="text" [(ngModel)]="place" name="description"></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label>Vyber si tím</ion-label>
+                <ion-label position="floating">Vyber si tím</ion-label>
                 <ion-select [(ngModel)]="team" name = "team" placeholder="">
                   <ion-select-option value ="blue">Modrý</ion-select-option>
                   <ion-select-option value ="red">Červený</ion-select-option>
-                  <ion-select-option value ="none">Nevyberať</ion-select-option>
                 </ion-select>
               </ion-item>
-              <ion-button ion-button type="submit" block >Potvrdiť</ion-button>
-            </form>
+              <ion-button color="dark" ion-button expand="full" (click)="sendMatch()" block >Potvrdiť</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>

@@ -1,0 +1,8 @@
+.this {
+    --border-color: white; // default underline color
+    --highlight-color-invalid:none; // invalid underline color
+    --highlight-color-valid:white; // valid underline color
+}
+ion-item.item-has-focus > ion-label{
+    color: #92949c !important;
+  }

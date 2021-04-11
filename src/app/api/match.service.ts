@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Goal } from '../models/goal';
+import { ToastController } from '@ionic/angular';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class MatchService {
   isFounded: boolean;
   
 
-  constructor(public router: Router, private userService: UserService) {
+  constructor(public router: Router,private toastController: ToastController, private userService: UserService) {
     
   }
 
@@ -63,7 +64,7 @@ export class MatchService {
     })
   }
 
-  getMatch(joinKey: string) {
+  async getMatch(joinKey: string) {
     this.foundMatch = [];
     if (joinKey) {
       this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
@@ -73,7 +74,13 @@ export class MatchService {
       })
     }
     else {
-      alert("Zápas sa nenašiel");
+      const toast = await this.toastController.create({
+      message: 'Zápas sa nenašiel',
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
+      
     }
   }
 
@@ -107,7 +114,12 @@ export class MatchService {
       })
     }
     else {
-      alert("Zápas sa nenašiel");
+      const toast = await this.toastController.create({
+        message: 'Zápas sa nenašiel',
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present();
     }
   }
 
