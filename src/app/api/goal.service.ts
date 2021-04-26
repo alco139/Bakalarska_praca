@@ -31,11 +31,7 @@ export class GoalService {
             tmp++;
           }
           
-        })
-       
+        }) 
     })
-   
-    
-    
   }
 }
