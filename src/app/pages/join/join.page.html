@@ -6,11 +6,11 @@
 
 <ion-content>
 <ion-item>
-  <ion-label>Zadaj kód zápasu</ion-label>
+  <ion-label position="floating" >Zadaj kód zápasu</ion-label>
   <ion-input type="text" [(ngModel)]="match_id" name="match_id"></ion-input>
 </ion-item>
 
-
-
-<ion-button expand="full">Pripojiť sa</ion-button>
+<ion-button color="dark" expand="full">Pripojiť sa</ion-button>
+<p class="ion-text-center">Ak máš učet <a routerLink="/login">prihlás sa</a></p>
+<p class="ion-text-center">Ak nemáš učet <a routerLink="/register">zaregistruj sa</a></p>
 </ion-content>

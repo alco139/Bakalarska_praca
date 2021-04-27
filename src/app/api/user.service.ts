@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Player } from '../models/player';
+import { ToastController } from '@ionic/angular';
 
 
 @Injectable({
@@ -21,7 +22,7 @@ export class UserService {
   dressNumber: number;
 
   playerCollection = firebase.firestore().collection("players");
-  constructor(private router: Router) { }
+  constructor(private router: Router,private toastController: ToastController) { }
 
   logOut() {
     firebase.auth().signOut().then(() => {
@@ -30,7 +31,7 @@ export class UserService {
     );
   }
 
-  signUp(email: string, password: string, confirmPassword: string, username: string) {
+  async signUp(email: string, password: string, confirmPassword: string, username: string) {
     if (password === confirmPassword) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then((data) => {
 
@@ -57,7 +58,15 @@ export class UserService {
         alert(err);
       })
     }
-    else { alert("Hesla sa nezhodujú") }
+    else { 
+      const toast = await this.toastController.create({
+        message: 'Hesla sa nezhodujú',
+        duration: 2000,
+        position: 'top',
+        keyboardClose: true
+      });
+      toast.present(); 
+    }
   }
 
   async signIn(email: string, password: string) {

@@ -10,7 +10,7 @@
             <ion-item>
               <ion-icon id="dark-mode-icon" name="sunny-outline"></ion-icon>
               <ion-label class="ion-margin">Svetlá Téma</ion-label>
-              <ion-toggle (ionChange)="onToggleColorTheme($event)"></ion-toggle>
+              <ion-toggle color="medium" (ionChange)="onToggleColorTheme($event)"></ion-toggle>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">

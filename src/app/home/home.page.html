@@ -1,11 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title class="ion-text-center">Hey<br>Football</ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content>
-  
-  <ion-button routerLink="/login" class="ion-margin-top" expand="full">Prihlásiť sa</ion-button>
-  <ion-button routerLink="/register" class="ion-margin-top" expand="full">Registrovať sa</ion-button>
-  <ion-button routerLink="/join" class="ion-margin-top" expand="full">Pripojiť sa na zápas</ion-button>
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title style="text-align: center;">
+        <ion-icon class="larger" name="football-outline"></ion-icon>
+        Hey football
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid style="margin-top: 100px;">
+        <ion-row>
+          <ion-button color="dark" routerLink="/login" expand="full" class="center">Prihlásiť sa</ion-button>
+        </ion-row>
+        <ion-row>
+          <ion-button color="dark" routerLink="/register" expand="full" class="center">Registrovať sa</ion-button>
+        </ion-row>
+        <ion-row>
+          <ion-button color="dark" routerLink="/join" expand="full" class="center">Pripojiť sa na zápas</ion-button>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

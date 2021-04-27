@@ -6,20 +6,20 @@
 
 <ion-content>
   <ion-item>
-    <ion-label>Email</ion-label>
+    <ion-label position="floating">Email</ion-label>
     <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label>Heslo</ion-label>
+    <ion-label position="floating">Heslo</ion-label>
     <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
   </ion-item>
 
 
-  <ion-button expand="full" (click)="signIn()">Prihlásiť sa</ion-button>
+  <ion-button color="dark" expand="full" (click)="signIn()">Prihlásiť sa</ion-button>
   <p class="ion-text-center">Ak nemáš učet <a routerLink="/register">zaregistruj sa</a></p>
   <p class="ion-text-center"><a routerLink="/join">Pripojiť sa na zápas </a></p>
-  <ion-button (click)="filip()">Filip</ion-button>
-  <ion-button (click)="alan()">Alan</ion-button>
+  <ion-button color="dark" (click)="filip()">Filip</ion-button>
+  <ion-button color="dark" (click)="alan()">Alan</ion-button>
 </ion-content>
 
