@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class MyMatchesPage implements OnInit {
   public matches = [];
+  public matchesPast = [];
   constructor(private router:Router ,private matchService: MatchService, private userService: UserService) { }
   
   ngOnInit() {
@@ -19,12 +20,15 @@ export class MyMatchesPage implements OnInit {
 
   ionViewWillEnter(){
     this.matchService.getMatches();
+    this.matchService.getMatchesPast();
     this.matches = this.matchService.matches;
-    
+    this.matchesPast = this.matchService.matchesPast;
+    console.log(this.matchesPast);
   }
 
   ionViewWillLeave(){
     this.matches = [];
+    this.matchesPast = [];
     this.matchService.clearMatches()
   }
   goToMatch(uuid){

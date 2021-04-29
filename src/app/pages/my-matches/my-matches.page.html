@@ -8,13 +8,51 @@
 </ion-header>
 
 <ion-content>
+  <br>
+  <ion-label style="font-size: large;margin-left: 10px;">Naplánované zápasy</ion-label>
+  <br>
   <ion-card *ngFor="let p of matches; let i = index">
-    <ion-card-header text-wrap (click)="goToMatch(p.joinKey)">
-      <ion-card-title>{{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-card-title>
-      <ion-card-subtitle>Miesto: {{p.place}}</ion-card-subtitle>
-      <ion-card-subtitle>Dátum: {{p.date}}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content text-wrap (click)="goToMatch(p.joinKey)">
+      <ion-card-header text-wrap (click)="goToMatch(p.joinKey)">
+        <ion-card-title style="position:relative;font-size:xx-large;float: right;margin-top: 10px;"> 
+          {{p.scoreTeamBlue}}:{{p.scoreTeamRed}}</ion-card-title>
+        <ion-item style="--background-hover: var(--background);">
+          <ion-label style="font-size: large;"><ion-icon style="font-size: xx-large;" name="location-outline"></ion-icon></ion-label>
+          <ion-input style="font-size: large;" value={{p.place}} readonly></ion-input>
+        </ion-item>
+        <ion-item style="--background-hover: var(--background);">
+          <ion-label><ion-icon style="font-size: xx-large;" name="calendar-outline"></ion-icon></ion-label>
+          <ion-datetime style="font-size: large;" displayFormat="DD. MM. YYYY H:m" value={{p.date}} readonly></ion-datetime>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content text-wrap (click)="goToMatch(p.joinKey)">
     </ion-card-content>
   </ion-card>
+  <div *ngIf="matches.length; else elseBlock"></div>
+  <ng-template #elseBlock>
+    <ion-card-header>
+      <ion-item>
+        <ion-label style="text-align: center;">Nemáš žiaden naplánovaný <br>zápas</ion-label>
+      </ion-item>
+    </ion-card-header>
+  </ng-template>
+  <br>
+  <ion-label style="font-size: large; margin-left: 10px;">Už odohraté zápasy</ion-label>
+  <br>
+  <ion-card style="background-color: darkgray;" *ngFor="let q of matchesPast; let i = index">
+    <ion-card-header text-wrap (click)="goToMatch(q.joinKey)">
+      <ion-card-title style="position:relative;font-size:xx-large;float: right;">{{q.scoreTeamBlue}}:{{q.scoreTeamRed}}
+      </ion-card-title>
+        <ion-label style="color: black;font-size: large;">Miesto: {{q.place}}</ion-label>
+    </ion-card-header>
+    <ion-card-content text-wrap (click)="goToMatch(q.joinKey)">
+    </ion-card-content>
+  </ion-card>
+  <div *ngIf="matchesPast.length; else elseBlock2"></div>
+  <ng-template #elseBlock2>
+    <ion-card-header>
+      <ion-item>
+        <ion-label style="text-align: center;">Nemáš žiaden odohratý zápas</ion-label>
+      </ion-item>
+    </ion-card-header>
+  </ng-template>
 </ion-content>
