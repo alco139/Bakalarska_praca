@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Goal } from '../models/goal';
-import { ToastController } from '@ionic/angular';
+import { IonDatetime, ToastController } from '@ionic/angular';
 
 
 @Injectable({
@@ -21,6 +21,7 @@ export class MatchService {
   playersRedTeam:any[] = [];
   joinKey: string;
   matches: any[] = [];
+  matchesPast: any[] = [];
   players: any[] = [];
   matchCollection = firebase.firestore().collection("matches");
 
@@ -54,11 +55,24 @@ export class MatchService {
     this.userService.joinMatch();
   }
   async getMatches() { 
-    await this.matchCollection.get().then((docs) => {
+    var time = new Date().toISOString();
+    await this.matchCollection.where('date','>=',time).orderBy('date','desc').get().then((docs) => {
       docs.forEach((doc) => {
         doc.data().players.forEach((player)=>{
           if(player.id == this.userService.player.id)
             this.matches.push(doc.data());
+        })
+      })
+    })
+  }
+
+  async getMatchesPast() { 
+    var time = new Date().toISOString();
+    await this.matchCollection.where('date','<',time).orderBy('date','desc').get().then((docs) => {
+      docs.forEach((doc) => {
+        doc.data().players.forEach((player)=>{
+          if(player.id == this.userService.player.id)
+            this.matchesPast.push(doc.data());
         })
       })
     })
@@ -86,6 +100,7 @@ export class MatchService {
 
   clearMatches() {
     this.matches = [];
+    this.matchesPast = [];
   }
 
   clearFoundMatch() {
