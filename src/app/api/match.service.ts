@@ -159,11 +159,53 @@ export class MatchService {
       })
     })
   }
+  async joinAnonymousBluePlayer(joinKey: string,username:string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        var player : Player = new Player(firebase.auth().currentUser.uid,username,0,1,0,0)
+        if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
+          doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            playersRed: firebase.firestore.FieldValue.arrayRemove(player.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
+          })
+        }
+        else{
+          doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayRemove(player.toJson()), 
+            playersBlue: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
+          })
+        }
+      })
+    })
+  }
 
   async joinRedPlayer(joinKey : string){
     await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
       docs.forEach((doc) => {
         var player : Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,this.userService.goals,this.userService.rating,this.userService.matches,this.userService.dressNumber)
+        if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
+          doc.ref.update({
+            playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(player.toJson()), 
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson())
+          })
+        }
+        else{
+          doc.ref.update({
+            playersBlue: firebase.firestore.FieldValue.arrayRemove(player.toJson()), 
+            playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+            players: firebase.firestore.FieldValue.arrayUnion(player.toJson()),
+          })
+        }
+      })
+    })
+  }
+  async joinAnonymousRedPlayer(joinKey : string, username:string){
+    await this.matchCollection.where("joinKey", "==", joinKey).get().then((docs) => {
+      docs.forEach((doc) => {
+        var player : Player = new Player(firebase.auth().currentUser.uid,username,0,1,0,0)
         if(doc.data().matchCreatorId == firebase.auth().currentUser.uid){
           doc.ref.update({
             playersRed: firebase.firestore.FieldValue.arrayUnion(player.toJson()),

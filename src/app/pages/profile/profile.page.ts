@@ -58,7 +58,4 @@ export class ProfilePage implements OnInit {
   changeProfile(){
     this.router.navigate(['/updateProfil']);
   }
-  getPlayer(){
-    console.log(this.userService.player);
-  }
 }

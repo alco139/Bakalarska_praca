@@ -48,6 +48,7 @@ export class MatchPage implements OnInit {
 
     await this.matchService.getRedPlayers(this.match);//red team ids
     this.redPlayers = this.matchService.playersRedTeam;
+
   }
 
 
@@ -57,7 +58,7 @@ export class MatchPage implements OnInit {
     this.matchService.clearFoundMatch()
   }
 
-  delete() {
+  deleteMatch() {
     this.matchService.deleteMatch(this.match);
   }
   async copy() {

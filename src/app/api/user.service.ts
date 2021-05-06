@@ -93,7 +93,6 @@ export class UserService {
   getPlayerId() {
     this.playerCollection.doc(this.id).get().then((doc) => {
       if (doc.exists) {
-        console.log(this.goals)
         return doc.data().id;
       }
     })
@@ -103,9 +102,9 @@ export class UserService {
   }
 
   async getStats(player: Player){
-    await console.log(player);
+    
+
     await this.playerCollection.doc(player.id).get().then((doc) => {
-     
       this.goals = doc.data().goals,
       this.rating = doc.data().rating,
       this.matches = doc.data().matches,
@@ -154,6 +153,26 @@ export class UserService {
     })
     await playerRef.update({
       matches : tmp
+    })
+  }
+  signAnonymous(){
+    firebase.auth().signInAnonymously();
+  }
+  async addAnonymousPlayer(username:string){
+    await this.playerCollection.doc(firebase.auth().currentUser.uid).set({
+      dressNumber: 0,
+      goals: 0,
+      id: firebase.auth().currentUser.uid,
+      name: username,
+      rating: 0,
+      matches: 0
+    })
+    await this.playerCollection.doc(firebase.auth().currentUser.uid).get().then((doc) => {
+      this.goals = doc.data().goals;
+      this.rating = doc.data().rating; 
+      this.matches = doc.data().matches;
+      this.dressNumber = doc.data().dressNumber;
+      this.player = new Player(this.id,this.username,this.goals,this.rating,this.matches,this.dressNumber);
     })
   }
   }

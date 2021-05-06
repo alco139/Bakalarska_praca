@@ -23,7 +23,6 @@ export class MyMatchesPage implements OnInit {
     this.matchService.getMatchesPast();
     this.matches = this.matchService.matches;
     this.matchesPast = this.matchService.matchesPast;
-    console.log(this.matchesPast);
   }
 
   ionViewWillLeave(){
