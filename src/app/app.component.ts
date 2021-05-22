@@ -1,8 +1,9 @@
+
 import { MatchService } from './api/match.service';
 import { UserService } from './api/user.service';
 import { Component } from '@angular/core';
 import * as firebase from 'firebase';
-import { Platform } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -42,7 +43,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private userService: UserService,
-    private MatchService: MatchService
+    private MatchService: MatchService,
   ) {
     this.initializeApp();
   }
@@ -53,7 +54,7 @@ export class AppComponent {
       this.splashScreen.hide();
     });
   }
-
+  
   ngOnInit() {
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {

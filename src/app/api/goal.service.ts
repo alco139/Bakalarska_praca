@@ -7,9 +7,11 @@ import { exit } from 'process';
 })
 export class GoalService {
 
-  goalCollection = firebase.firestore().collection("goals");
+  
   isFounded = false;
 
+
+  goalCollection = firebase.firestore().collection("goals");
   constructor() { }
 
   async addGoal(matchId:string, player){

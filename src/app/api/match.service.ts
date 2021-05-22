@@ -23,13 +23,11 @@ export class MatchService {
   matches: any[] = [];
   matchesPast: any[] = [];
   players: any[] = [];
-  matchCollection = firebase.firestore().collection("matches");
-
   matchToOpen: string;
   foundMatch: any[] = [];
   isFounded: boolean;
   
-
+  matchCollection = firebase.firestore().collection("matches");
   constructor(public router: Router,private toastController: ToastController, private userService: UserService) {
     
   }

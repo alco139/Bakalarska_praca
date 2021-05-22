@@ -25,7 +25,6 @@ export class RegisterPage implements OnInit {
 
   signUp(){
     this.userService.signUp(this.email,this.password,this.confirmPassword,this.username);
-      
     }
     
 }

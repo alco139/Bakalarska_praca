@@ -10,8 +10,7 @@ import { ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class UserService {
-
-
+  
   username: string;
   email: string;
   id: string;
@@ -32,7 +31,7 @@ export class UserService {
   }
 
   async signUp(email: string, password: string, confirmPassword: string, username: string) {
-    if (password === confirmPassword) {
+    if (password === confirmPassword && username != null && email != null) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then((data) => {
 
         var newUser: firebase.User = data.user;
@@ -54,18 +53,46 @@ export class UserService {
           rating: this.rating,
           matches: 0
         })
-      }).catch((err) => {
-        alert(err);
+      }).catch(async (err) => {
+          const toast = await this.toastController.create({
+            message: 'Email je už používaný',
+            duration: 2000,
+            position: 'top',
+            keyboardClose: true
+          });
+          toast.present(); 
+        
       })
     }
-    else { 
-      const toast = await this.toastController.create({
-        message: 'Hesla sa nezhodujú',
-        duration: 2000,
-        position: 'top',
-        keyboardClose: true
-      });
-      toast.present(); 
+    else {
+      if(username == null){
+        const toast = await this.toastController.create({
+          message: 'Meno je prázdne',
+          duration: 2000,
+          position: 'top',
+          keyboardClose: true
+        });
+        toast.present(); 
+      }
+      else if(email == null){
+        const toast = await this.toastController.create({
+          message: 'Email je prázdný',
+          duration: 2000,
+          position: 'top',
+          keyboardClose: true
+        });
+        toast.present(); 
+      }
+      else{
+        const toast = await this.toastController.create({
+          message: 'Heslá sa nezhodujú',
+          duration: 2000,
+          position: 'top',
+          keyboardClose: true
+        });
+        toast.present(); 
+      }
+      
     }
   }
 
