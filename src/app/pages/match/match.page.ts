@@ -152,7 +152,7 @@ export class MatchPage implements OnInit {
     await this.userMatchService.addGoal(player,this.match, team);
     this.foundMatch = this.matchService.foundMatch;
     this.goalService.addGoal(this.match, player);
-
+    this.router.navigate(['/profile']);
   
   }
   
@@ -171,6 +171,10 @@ export class MatchPage implements OnInit {
   
     }
     this.foundMatch = this.matchService.foundMatch;
+    
+  }
+  updateMatch(){
+    this.router.navigate(['/updateMatch']);
     
   }
 

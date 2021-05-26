@@ -97,6 +97,7 @@ export class UserService {
   }
 
   async signIn(email: string, password: string) {
+    if(email != null && password != null){
     await firebase.auth().signInWithEmailAndPassword(email, password).then((data) => {
       this.router.navigate(['/profile']);
       this.username = data.user.displayName;
@@ -104,8 +105,27 @@ export class UserService {
       this.id = data.user.uid;
       
 
-    }).catch((err) => {
-      console.log(err);
+    }).catch(async (err) => {
+      if(err.code === "auth/user-not-found"){
+        const toast = await this.toastController.create({
+          message: 'Email neexistuje',
+          duration: 2000,
+          position: 'top',
+          keyboardClose: true
+        });
+        toast.present(); 
+      }
+      
+      else if(err.code === "auth/wrong-password"){
+        const toast = await this.toastController.create({
+          message: 'Zlé heslo',
+          duration: 2000,
+          position: 'top',
+          keyboardClose: true
+        });
+        toast.present(); 
+
+      }
     })
     await this.playerCollection.doc(this.id).get().then((doc) => {
      
@@ -115,6 +135,27 @@ export class UserService {
       this.dressNumber = doc.data().dressNumber;
       this.player = new Player(this.id,this.username,this.goals,this.rating,this.matches,this.dressNumber);
     })
+  }
+  else{
+    if(email== null){
+      const toast = await this.toastController.create({
+        message: 'Prázdny email',
+        duration: 2000,
+        position: 'top',
+        keyboardClose: true
+      });
+      toast.present(); 
+    }
+    else if(password == null){
+      const toast = await this.toastController.create({
+        message: 'Prázdne heslo',
+        duration: 2000,
+        position: 'top',
+        keyboardClose: true
+      });
+      toast.present(); 
+    }
+  }
   }
 
   getPlayerId() {

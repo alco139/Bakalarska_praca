@@ -59,15 +59,29 @@ export class JoinPage implements OnInit {
     
     
   }
-  joinBlue(){
+  async joinBlue(){
     this.matchService.joinAnonymousBluePlayer(this.joinKey,this.username);
     this.userService.addAnonymousPlayer(this.username);
     this.router.navigate['/my-matches'];
+
+    const toast = await this.toastController.create({
+      message: 'Úspešne si bol pripojený na zápas',
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
   }
-  joinRed(){
+  async joinRed(){
     this.matchService.joinAnonymousRedPlayer(this.joinKey,this.username);
     this.userService.addAnonymousPlayer(this.username);
     this.router.navigate['/my-matches'];
+
+    const toast = await this.toastController.create({
+      message: 'Úspešne si bol pripojený na zápas',
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
   }
   
 }

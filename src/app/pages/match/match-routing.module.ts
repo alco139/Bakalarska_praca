@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: MatchPage
+  },  {
+    path: 'update-match',
+    loadChildren: () => import('./update-match/update-match.module').then( m => m.UpdateMatchPageModule)
   }
+
 ];
 
 @NgModule({

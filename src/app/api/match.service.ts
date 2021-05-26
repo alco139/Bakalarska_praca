@@ -33,6 +33,7 @@ export class MatchService {
   }
 
   addMatch(date: Date, place: string, joinKey: string) {
+
     this.players = [];
     
     var player: Player = new Player(firebase.auth().currentUser.uid,firebase.auth().currentUser.displayName,
@@ -385,4 +386,14 @@ export class MatchService {
     await this.getMatch(joinKey);
   }
  
+  async updateMatch(date,place){
+    await this.matchCollection.where("joinKey", "==", this.matchToOpen).get().then((docs) => {
+      docs.forEach((doc) => {
+          doc.ref.update({
+            date: date,
+            place: place
+          })
+      })
+    })
+  }
 }

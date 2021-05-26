@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MenuController, Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { v4 as uuidv1 } from 'uuid';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-match',
@@ -17,7 +18,7 @@ export class CreateMatchPage implements OnInit {
   place: string;
   team : any;
 
-  constructor(private menu: MenuController,private router:Router , private userService: UserService, private matchService: MatchService) { }
+  constructor(private menu: MenuController,private router:Router , private userService: UserService, private matchService: MatchService,private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -44,16 +45,26 @@ export class CreateMatchPage implements OnInit {
 
 
   async sendMatch(){
-    var joinKey = uuidv1().substring(0,8)
-    await this.matchService.addMatch(this.date,this.place, joinKey);
-    if (this.team == "blue"){
-      this.matchService.joinBluePlayer(joinKey);
+    if(this.date == null || this.place == null || this.team == null || this.place == ""){
+      const toast = await this.toastController.create({
+        message: 'Neplatné dáta',
+        duration: 2000,
+        position: 'top',
+        keyboardClose: true
+      });
+      toast.present(); 
     }
-    else if (this.team == "red"){
-      this.matchService.joinRedPlayer(joinKey);
+    else{
+      var joinKey = uuidv1().substring(0,8)
+      await this.matchService.addMatch(this.date,this.place, joinKey);
+      if (this.team == "blue"){
+        this.matchService.joinBluePlayer(joinKey);
+      }
+      else if (this.team == "red"){
+        this.matchService.joinRedPlayer(joinKey);
+      }
+      this.router.navigate(["/profile"]);
     }
-  
-
-    this.router.navigate(["/profile"]);
-  }
+    }
+    
 }

@@ -7,24 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  
-  <ion-tabs style="min-height:80px ;">
-    <ion-tab-bar slot="bottom" class="ion-margin-top">
-      <ion-tab-button>
-        <ion-icon name="save-outline"></ion-icon>
-        <ion-label>Uložiť</ion-label>
-      </ion-tab-button>
-      <ion-tab-button (click)="deleteMatch()">
-        <ion-icon name="trash-outline"></ion-icon>
-        <ion-label>Vymazať</ion-label>
-      </ion-tab-button>
-      <ion-tab-button (click)="shuffle()">
-        <ion-icon name="shuffle-outline"></ion-icon>
-        <ion-label>Zamiešať</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+<ion-content  style="min-height:80% ;">
+ 
 
   <div *ngFor="let p of foundMatch">
     <ion-item>
@@ -99,9 +83,23 @@
       <ion-label>Tento tím je bez hráčov</ion-label>
     </ion-item>
   </ng-template>
-
-
-  
-
-  
+</ion-content>
+<ion-content>
+   
+  <ion-tabs style="min-height:10px ;">
+    <ion-tab-bar slot="bottom" class="ion-margin-top">
+      <ion-tab-button (click)="updateMatch()">
+        <ion-icon name="pencil-outline"></ion-icon>
+        <ion-label>Upraviť</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="deleteMatch()">
+        <ion-icon name="trash-outline"></ion-icon>
+        <ion-label>Vymazať</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="shuffle()">
+        <ion-icon name="shuffle-outline"></ion-icon>
+        <ion-label>Zamiešať</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

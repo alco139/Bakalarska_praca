@@ -43,7 +43,10 @@ const routes: Routes = [
     path: 'updateProfil',
     loadChildren: () => import('./pages/profile/update-email/update-email.module').then( m => m.UpdateEmailPageModule)
   },
-
+  {
+    path: 'updateMatch',
+    loadChildren: () => import('./pages/match/update-match/update-match.module').then( m => m.UpdateMatchPageModule)
+  },
 
 ];
 
